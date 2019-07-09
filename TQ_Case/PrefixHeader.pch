@@ -1,0 +1,122 @@
+//
+//  PrefixHeader.pch
+//  TQ_Case
+//
+//  Created by apple on 2019/7/9.
+//  Copyright © 2019 TQ. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "Core.h"
+#import "AppDelegate.h"
+
+#endif
+
+
+
+#define Loading  @"加载中..."
+#define Logining @"登录中..."
+#define Processing @"处理中..."
+#define Verifying  @"验证中..."
+#define UploadIng  @"上传中..."
+#define UploadSuccess  @"上传成功"
+
+#define kSessionDataKey @"kSessionDataKey"
+
+
+#undef  APPDELEGATE
+#define APPDELEGATE         (AppDelegate *)[UIApplication sharedApplication].delegate
+
+#define WINDOWCONTROLLER    ((WindowController*)[UIApplication sharedApplication].keyWindow.rootViewController)
+
+#define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGTH       [UIScreen mainScreen].bounds.size.height
+
+/** 屏幕 */
+#define YPScreen  [UIScreen mainScreen]
+/** 屏幕宽度 */
+#define YPScreenW [UIScreen mainScreen].bounds.size.width
+/** 屏幕高度 */
+#define YPScreenH [UIScreen mainScreen].bounds.size.height
+/** 屏幕bounds */
+#define YPScreenBounds [UIScreen mainScreen].bounds
+/** 屏幕伸缩度（Retina时值为2,非Retina值为1）*/
+#define YPScreenScale [UIScreen mainScreen].scale
+
+#define YPNotificationCenter [NSNotificationCenter defaultCenter]
+#define YPUserDefaults [NSUserDefaults standardUserDefaults]
+#define YPApplication  [UIApplication sharedApplication]
+#define YPFileManager  [NSFileManager defaultManager]
+#define YPDevice [UIDevice currentDevice]
+
+/** 弧度制转为角度制 */
+#define YPAngle2Radian(angle) ((angle) / 180.0 * M_PI)
+
+
+//释放一个对象
+#define RELEASE_SAFELY(P) if(P) { P = nil; }
+
+
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+
+#define kStringIsEmpty(str) ([str isKindOfClass:[NSNull class]] || str == nil || [str length] < 1 ? YES : NO )
+
+#define kArrayIsEmpty(array) (array == nil || [array isKindOfClass:[NSNull class]] || array.count == 0)
+
+#define kDictIsEmpty(dic) (dic == nil || [dic isKindOfClass:[NSNull class]] || dic.allKeys == 0)
+
+#define kObjectIsEmpty(_object) (_object == nil || [_object isKindOfClass:[NSNull class]] || ([_object respondsToSelector:@selector(length)] && [(NSData *)_object length] == 0) || ([_object respondsToSelector:@selector(count)] && [(NSArray *)_object count] == 0))
+
+#define kStatusBarHeight [[UIApplication sharedApplication] statusBarFrame].size.height
+#define kNavBarHeight 44.0
+#define kNavBarTopMargin (kStatusBarHeight - 20)
+#define kTopHeight (kStatusBarHeight + kNavBarHeight)
+
+#define kTabBarHeight ([[UIApplication sharedApplication] statusBarFrame].size.height>20?83:49)
+#define kTabBarBottomMargin ([[UIApplication sharedApplication] statusBarFrame].size.height>20?34.f:0.f)
+
+
+#define kAppVersionUpdateNotification @"kAppVersionUpdateNotification" //版本更新
+
+#define kLoginSuccessNotification @"kLoginSuccessNotification"       //登录成功通知
+#define kRegisterSuccessNotification @"kRegisterSuccessNotification" //注册成功通知
+#define kLoginOutSuccessNotification @"kLoginOutSuccessNotification" //注销成功通知
+#define kOpenSystemNotification @"kOpenSystemNotification"           //加载完启动程序
+
+
+#define kCarLoanHomeControllerNotification @"kCarLoanHomeControllerNotification" //新增进件成功
+
+#define kReachabilityNoNetworkNotification @"kReachabilityNoNetworkNotification" //无网络
+#define kReachabilityNetworkNotification @"kReachabilityNetworkNotification"     //有网络
+
+#define kLotificationRefreshNotification @"kLotificationRefreshNotification"     //位置刷新
+
+//平台类型（0正式平台，1测试平台 2开发平台,3其他环境)
+
+
+#define PLANTFORM                  1
+
+//1可切换平台0不可切换
+#define ISTEST                     1
+
+
+#define _AFNETWORKING_ALLOW_INVALID_SSL_CERTIFICATES_
+#define _AFNETWORKING_PIN_SSL_CERTIFICATES_
+
+
+
+
+#endif /* PrefixHeader_pch */
