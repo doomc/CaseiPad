@@ -40,21 +40,21 @@ DDLogInfo(@"******************************请求完成(%lu)*********************
     self = [super init];
     self.securityPolicy = [self mySecurityPolicy];
     
-//    AFJSONRequestSerializer *requestJsonSerializer = [AFJSONRequestSerializer serializer];
-//    [requestJsonSerializer setStringEncoding:NSUTF8StringEncoding];
-//    [requestJsonSerializer setAllowsCellularAccess:YES];
-//    [requestJsonSerializer setTimeoutInterval:500];
-//    [requestJsonSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//    [requestJsonSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-//    self.requestSerializer = requestJsonSerializer;
+    AFJSONRequestSerializer *requestJsonSerializer = [AFJSONRequestSerializer serializer];
+    [requestJsonSerializer setStringEncoding:NSUTF8StringEncoding];
+    [requestJsonSerializer setAllowsCellularAccess:YES];
+    [requestJsonSerializer setTimeoutInterval:500];
+    [requestJsonSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [requestJsonSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    self.requestSerializer = requestJsonSerializer;
     
 
     
-    AFJSONResponseSerializer *responseSerializer = (AFJSONResponseSerializer *)self.responseSerializer;
-    responseSerializer.removesKeysWithNullValues = YES;
-    responseSerializer.readingOptions = NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves | NSJSONReadingAllowFragments;
-    [responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:@"text/html",@"application/json",@"application/x-www-form-urlencoded", nil]];
-    
+//    AFJSONResponseSerializer *responseSerializer = (AFJSONResponseSerializer *)self.responseSerializer;
+//    responseSerializer.removesKeysWithNullValues = YES;
+//    responseSerializer.readingOptions = NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves | NSJSONReadingAllowFragments;
+//    [responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:@"text/html",@"application/json",@"application/x-www-form-urlencoded", nil]];
+
     [self.reachabilityManager startMonitoring];
     return self;
 }

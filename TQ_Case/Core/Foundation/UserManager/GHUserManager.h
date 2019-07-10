@@ -13,17 +13,13 @@
 
 @property (nonatomic, strong) User *user;
 @property (nonatomic, assign) BOOL isLogin;
-@property (nonatomic, strong) NSString *token;
-@property (nonatomic, strong) NSMutableArray *iconList;
-@property (nonatomic, strong) NSNumber *tab1;
-@property (nonatomic, strong) NSNumber *tab2;
-@property (nonatomic, strong) NSNumber *tab3;
-@property (nonatomic, strong) NSNumber *tab4;
 
-@property (nonatomic, assign) BOOL needNotification;
-@property (nonatomic, strong) NSDictionary *pushDictionary;
+@property (copy, nonatomic)NSString *projectId;
+@property (copy, nonatomic)NSString *userId;
 
 - (void)loginOut;
+
+
 
 @end
 

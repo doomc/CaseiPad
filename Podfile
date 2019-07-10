@@ -5,7 +5,7 @@ platform :ios, '9.0'
 
 target 'TQ_Case' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-  # use_frameworks!
+use_frameworks!
 
   # Pods for TQ_Case
   
@@ -22,5 +22,6 @@ target 'TQ_Case' do
   pod 'YYCache'
   pod 'YYModel'
   pod 'YYWebImage'
+  pod 'RMQClient'
 
 end

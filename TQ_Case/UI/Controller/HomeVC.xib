@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeVC">
+            <connections>
+                <outlet property="view" destination="s53-00-fDc" id="PBx-3Z-hKK"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="s53-00-fDc">
+            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_bottomBg" translatesAutoresizingMaskIntoConstraints="NO" id="BEp-us-Y5A">
+                    <rect key="frame" x="0.0" y="752" width="1024" height="16"/>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_dot" translatesAutoresizingMaskIntoConstraints="NO" id="9l2-1z-9vi">
+                    <rect key="frame" x="948" y="711" width="16" height="16"/>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_TIQI_LOGO" translatesAutoresizingMaskIntoConstraints="NO" id="Nps-kl-fpy">
+                    <rect key="frame" x="504" y="681" width="16" height="16"/>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_title" translatesAutoresizingMaskIntoConstraints="NO" id="KtO-NF-YlO">
+                    <rect key="frame" x="68" y="114" width="443.00000000000011" height="88"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_dengji" translatesAutoresizingMaskIntoConstraints="NO" id="ldO-ed-Pt4">
+                    <rect key="frame" x="200" y="110" width="30" height="30"/>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_message" translatesAutoresizingMaskIntoConstraints="NO" id="yV9-FF-aNx">
+                    <rect key="frame" x="794" y="110" width="30" height="30"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ea1-my-7at">
+                    <rect key="frame" x="964" y="20" width="40" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="Iv4-07-hVA"/>
+                        <constraint firstAttribute="height" constant="44" id="sEQ-G7-NXv"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                    <state key="normal" title="注销">
+                        <color key="titleColor" red="0.76078431369999999" green="0.76078431369999999" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="loginOutAction:" destination="-1" eventType="touchUpInside" id="KWD-uh-YbJ"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyrights © 2016-2019 重庆天智慧启科技有限公司" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oNO-29-PWF">
+                    <rect key="frame" x="366.5" y="712" width="291" height="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.67450980390000004" green="0.69803921570000005" blue="0.73725490199999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PWs-bB-8Kf">
+                    <rect key="frame" x="200" y="110" width="30" height="30"/>
+                    <connections>
+                        <action selector="visiterRegisterAction:" destination="-1" eventType="touchUpInside" id="Oxs-8Y-CM4"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b7v-5a-uUy">
+                    <rect key="frame" x="794" y="110" width="30" height="30"/>
+                    <connections>
+                        <action selector="infoRecordAction:" destination="-1" eventType="touchUpInside" id="LfI-zw-GPD"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="PWs-bB-8Kf" firstAttribute="centerY" secondItem="ldO-ed-Pt4" secondAttribute="centerY" id="0dk-nl-24Z"/>
+                <constraint firstAttribute="trailing" secondItem="BEp-us-Y5A" secondAttribute="trailing" id="5AJ-ql-4tC"/>
+                <constraint firstItem="ldO-ed-Pt4" firstAttribute="top" secondItem="yV9-FF-aNx" secondAttribute="top" id="67h-sV-REo"/>
+                <constraint firstItem="b7v-5a-uUy" firstAttribute="height" secondItem="yV9-FF-aNx" secondAttribute="height" id="9J2-9g-Tbm"/>
+                <constraint firstItem="yV9-FF-aNx" firstAttribute="top" secondItem="aXG-fB-TQb" secondAttribute="top" constant="90" id="9VW-YD-tVt"/>
+                <constraint firstItem="Nps-kl-fpy" firstAttribute="centerX" secondItem="oNO-29-PWF" secondAttribute="centerX" id="BHN-Ln-rYv"/>
+                <constraint firstItem="ldO-ed-Pt4" firstAttribute="leading" secondItem="aXG-fB-TQb" secondAttribute="leading" constant="200" id="EIC-Sz-GpU"/>
+                <constraint firstItem="PWs-bB-8Kf" firstAttribute="height" secondItem="ldO-ed-Pt4" secondAttribute="height" id="IG3-bp-Tb0"/>
+                <constraint firstItem="oNO-29-PWF" firstAttribute="top" secondItem="Nps-kl-fpy" secondAttribute="bottom" constant="15" id="JpC-QL-Tmo"/>
+                <constraint firstItem="b7v-5a-uUy" firstAttribute="width" secondItem="yV9-FF-aNx" secondAttribute="width" id="Lzr-I8-cnT"/>
+                <constraint firstItem="aXG-fB-TQb" firstAttribute="trailing" secondItem="ea1-my-7at" secondAttribute="trailing" constant="20" id="MPC-s8-WLZ"/>
+                <constraint firstItem="aXG-fB-TQb" firstAttribute="trailing" secondItem="yV9-FF-aNx" secondAttribute="trailing" constant="200" id="NIP-YZ-Bc6"/>
+                <constraint firstItem="oNO-29-PWF" firstAttribute="centerX" secondItem="BEp-us-Y5A" secondAttribute="centerX" id="SsO-3w-1y8"/>
+                <constraint firstItem="BEp-us-Y5A" firstAttribute="leading" secondItem="s53-00-fDc" secondAttribute="leading" id="TMQ-yL-tT9"/>
+                <constraint firstItem="aXG-fB-TQb" firstAttribute="bottom" secondItem="BEp-us-Y5A" secondAttribute="bottom" id="WdJ-zL-j8f"/>
+                <constraint firstItem="b7v-5a-uUy" firstAttribute="centerX" secondItem="yV9-FF-aNx" secondAttribute="centerX" id="aEA-jl-jZg"/>
+                <constraint firstItem="aXG-fB-TQb" firstAttribute="bottom" secondItem="oNO-29-PWF" secondAttribute="bottom" constant="41" id="aOV-R4-ikR"/>
+                <constraint firstItem="aXG-fB-TQb" firstAttribute="trailing" secondItem="9l2-1z-9vi" secondAttribute="trailing" constant="60" id="aRI-qW-Hkf"/>
+                <constraint firstItem="aXG-fB-TQb" firstAttribute="bottom" secondItem="9l2-1z-9vi" secondAttribute="bottom" constant="41" id="aV1-DG-yGJ"/>
+                <constraint firstItem="PWs-bB-8Kf" firstAttribute="centerX" secondItem="ldO-ed-Pt4" secondAttribute="centerX" id="i3J-3q-DUP"/>
+                <constraint firstItem="PWs-bB-8Kf" firstAttribute="width" secondItem="ldO-ed-Pt4" secondAttribute="width" id="nzi-LP-uxY"/>
+                <constraint firstItem="b7v-5a-uUy" firstAttribute="centerY" secondItem="yV9-FF-aNx" secondAttribute="centerY" id="tTg-l5-hTq"/>
+                <constraint firstItem="ea1-my-7at" firstAttribute="top" secondItem="aXG-fB-TQb" secondAttribute="top" id="xwZ-Jp-TaV"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="aXG-fB-TQb"/>
+            <point key="canvasLocation" x="93.75" y="98.4375"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="home_dengji" width="269" height="566"/>
+        <image name="home_message" width="269" height="567"/>
+        <image name="login_TIQI_LOGO" width="95" height="25"/>
+        <image name="login_bottomBg" width="1024" height="768"/>
+        <image name="login_dot" width="69" height="15"/>
+        <image name="login_title" width="443" height="88"/>
+    </resources>
+</document>

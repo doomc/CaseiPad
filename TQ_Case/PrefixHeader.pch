@@ -21,7 +21,14 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "Core.h"
+#import "ModelAPI.h"
 #import "AppDelegate.h"
+#import "NSObject+ServerURL.h"
+#import "NSUserDefaults+UserInfo.h"
+
+#import "NetworkAPI.h"
+#import "GHAppEngine.h"
+#import "UICommon.h"
 
 #endif
 
@@ -103,6 +110,10 @@
 #define kReachabilityNetworkNotification @"kReachabilityNetworkNotification"     //有网络
 
 #define kLotificationRefreshNotification @"kLotificationRefreshNotification"     //位置刷新
+
+
+#define kBackgroundColor RGB(245, 246, 247)
+
 
 //平台类型（0正式平台，1测试平台 2开发平台,3其他环境)
 

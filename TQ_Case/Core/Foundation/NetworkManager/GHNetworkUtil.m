@@ -92,11 +92,7 @@ NSString * WQQueryStringFromParametersWithEncoding(NSDictionary *parameters, NSS
 //请求参数
 + (NSDictionary *)requestParamsWithApi:(NSString *)api params:(NSDictionary *)params {
     NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] init];
-//    [tempDic setObject:@"ios" forField:@"platform"];
-//    [tempDic setObject:@"v1" forField:@"apiVersion"];
-//    [tempDic setObject:api forField:@"api"];
-//    [tempDic setObject:APPENGINE.userManager.userId forField:@"userId"];
-//    [tempDic setObject:APPENGINE.userManager.userToken forField:@"userToken"];
+
     if ([params isKindOfClass:[NSDictionary class]]) {
         [tempDic addEntriesFromDictionary:params];
     }
@@ -108,15 +104,15 @@ NSString * WQQueryStringFromParametersWithEncoding(NSDictionary *parameters, NSS
 }
 
 + (NSError *)filterLoginData:(id)responseObject{
-    NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
+    NSInteger code = [[responseObject objectForKey:@"errcode"] integerValue];
     if(code == 200){
         return nil;
     }else if(code == 401){
         [[NSNotificationCenter defaultCenter] postNotificationName:kLoginOutSuccessNotification object:nil];
         return nil;
     }else{
-        NSInteger code = [[responseObject objectForKey:@"status_code"] integerValue];
-        NSString *message = [responseObject objectForKey:@"msg"];
+        NSInteger code = [[responseObject objectForKey:@"errcode"] integerValue];
+        NSString *message = [responseObject objectForKey:@"errmsg"];
         NSError *error = [NSError bussinessError:code message:message];
         return error;
     }

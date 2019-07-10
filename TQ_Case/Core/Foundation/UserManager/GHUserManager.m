@@ -22,11 +22,16 @@
     return self;
 }
 - (void)loginOut{
-    [self setUser:nil];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault removeObjectForKey:kSessionDataKey];
     [self setIsLogin:NO];
+    [self setUser:nil];
+    [self setProjectId:nil];
+    [self setUserId:nil];
 }
+
+
+
 @end
 
 

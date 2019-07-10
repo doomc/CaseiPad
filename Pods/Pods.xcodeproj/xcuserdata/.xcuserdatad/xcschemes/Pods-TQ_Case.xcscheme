@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "144C46915E460FEA96E02A65C2248D73"
+               BlueprintIdentifier = "488B3F59014310B1D0B6328D02B87F3A"
                BlueprintName = "Pods-TQ_Case"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "libPods-TQ_Case.a">
+               BuildableName = "Pods-TQ_Case.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

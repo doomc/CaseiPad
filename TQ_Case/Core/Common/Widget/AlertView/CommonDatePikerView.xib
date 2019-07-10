@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommonDatePikerView"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CommonDatePikerView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mnk-Vs-Ebm">
+                    <rect key="frame" x="0.0" y="407" width="375" height="260"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3vm-jJ-ZbE">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AEl-bX-g1f">
+                                    <rect key="frame" x="0.0" y="0.0" width="73" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <state key="normal" title="取消">
+                                        <color key="titleColor" red="0.59999999999999998" green="0.61960784310000006" blue="0.65490196079999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="cancelButtonAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="2lW-DM-sSc"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ckG-dt-mjm">
+                                    <rect key="frame" x="302" y="0.0" width="73" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <state key="normal" title="确定">
+                                        <color key="titleColor" red="0.51764705879999995" green="0.57647058819999997" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="confirmButtonAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="oyT-QT-wHe"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.97254901959999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="m9U-Eb-HYU"/>
+                            </constraints>
+                        </view>
+                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="7la-gJ-a0S">
+                            <rect key="frame" x="0.0" y="44" width="375" height="216"/>
+                            <date key="date" timeIntervalSinceReferenceDate="574158534.38271701">
+                                <!--2019-03-13 08:28:54 +0000-->
+                            </date>
+                        </datePicker>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="7la-gJ-a0S" firstAttribute="top" secondItem="3vm-jJ-ZbE" secondAttribute="bottom" id="0K3-b0-fYp"/>
+                        <constraint firstAttribute="trailing" secondItem="7la-gJ-a0S" secondAttribute="trailing" id="2aC-pB-vaA"/>
+                        <constraint firstAttribute="bottom" secondItem="7la-gJ-a0S" secondAttribute="bottom" id="Wwx-Jc-e3t"/>
+                        <constraint firstItem="7la-gJ-a0S" firstAttribute="leading" secondItem="Mnk-Vs-Ebm" secondAttribute="leading" id="gEe-vw-9OZ"/>
+                        <constraint firstItem="3vm-jJ-ZbE" firstAttribute="top" secondItem="Mnk-Vs-Ebm" secondAttribute="top" id="hzg-3k-B0r"/>
+                        <constraint firstAttribute="trailing" secondItem="3vm-jJ-ZbE" secondAttribute="trailing" id="iih-uW-fah"/>
+                        <constraint firstItem="3vm-jJ-ZbE" firstAttribute="leading" secondItem="Mnk-Vs-Ebm" secondAttribute="leading" id="lzf-2g-tMc"/>
+                        <constraint firstAttribute="height" constant="260" id="tny-TV-zPt"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y33-a9-fhA">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="407"/>
+                    <connections>
+                        <action selector="cancelButtonAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="efG-rx-MDU"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="y33-a9-fhA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="DIn-fM-keJ"/>
+                <constraint firstItem="Mnk-Vs-Ebm" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="DLB-1s-02i"/>
+                <constraint firstItem="y33-a9-fhA" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Egk-hB-6MF"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Mnk-Vs-Ebm" secondAttribute="bottom" id="Nfg-Al-k03"/>
+                <constraint firstItem="Mnk-Vs-Ebm" firstAttribute="top" secondItem="y33-a9-fhA" secondAttribute="bottom" id="gDN-4a-V4L"/>
+                <constraint firstItem="y33-a9-fhA" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="q4h-px-Mgn"/>
+                <constraint firstItem="Mnk-Vs-Ebm" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="xr8-FX-vgc"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="pikerView" destination="7la-gJ-a0S" id="bnO-ZY-uhd"/>
+            </connections>
+            <point key="canvasLocation" x="133.59999999999999" y="154.27286356821591"/>
+        </view>
+    </objects>
+</document>

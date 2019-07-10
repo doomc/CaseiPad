@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#import "GHAppEngine.h"
 
-@property (strong, nonatomic) UIWindow *window;
+@interface AppDelegate : GHAppEngine <UIApplicationDelegate>
+
+@property (nonatomic, strong) UIStoryboard *homeStoryBoard;
+//支持横屏
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations;
 
 
 @end

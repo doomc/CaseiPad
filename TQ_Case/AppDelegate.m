@@ -17,6 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [super initModule];
     return YES;
 }
 
@@ -47,5 +48,22 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+
+- (UIStoryboard *)homeStoryBoard{
+    if (_homeStoryBoard == nil) {
+        _homeStoryBoard = [UIStoryboard storyboardWithName:@"Home" bundle:nil];
+    }
+    return _homeStoryBoard;
+}
+
+
+
+/**
+ *  设置特殊的界面支持的方向,这里特殊界面只支持Home在右侧的情况
+ */
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    
+    return UIInterfaceOrientationMaskLandscapeRight;
+}
 
 @end

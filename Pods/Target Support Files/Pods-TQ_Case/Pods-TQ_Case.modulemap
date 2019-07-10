@@ -1,0 +1,6 @@
+framework module Pods_TQ_Case {
+  umbrella header "Pods-TQ_Case-umbrella.h"
+
+  export *
+  module * { export * }
+}
