@@ -59,16 +59,16 @@
 }
 
 - (void)autoLogin{
-//    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-//
-//    if([userDefault objectForKey:kSessionDataKey]){
-//        NSDictionary *dataDic = [userDefault objectForKey:kSessionDataKey];
-//        [APPDELEGATE userManager].userId =  dataDic[@"id"];
-//        [APPDELEGATE userManager].projectId =  dataDic[@"projectId"];
-//
-//    }else{
-//        [self postNotification:kOpenSystemNotification];
-//    }
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+
+    if([userDefault objectForKey:kSessionDataKey]){
+        NSDictionary *dataDic = [userDefault objectForKey:kSessionDataKey];
+        [APPDELEGATE userManager].userId =  dataDic[@"id"];
+        [APPDELEGATE userManager].projectId =  dataDic[@"projectId"];
+
+    }else{
+        [self postNotification:kOpenSystemNotification];
+    }
 }
 
 - (BOOL)showUserGuide{

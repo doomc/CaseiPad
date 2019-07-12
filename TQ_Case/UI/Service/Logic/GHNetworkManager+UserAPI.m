@@ -25,21 +25,21 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSError *error = [GHNetworkUtil filterLoginData:responseObject];
         if (error == nil) {
-            NSDictionary *dataDic = [responseObject objectForKey:@"data"][@"data"];
+            NSDictionary *dataDic = [responseObject objectForKey:@"data"];
             User * user = [dataDic yy_modelToJSONObject];
             [[APPDELEGATE userManager] setUser:user];
             [[APPDELEGATE userManager] setIsLogin:YES];
             [APPDELEGATE userManager].projectId = dataDic[@"projectId"];
             [APPDELEGATE userManager].userId = dataDic[@"id"];
-//            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-//            if (dataDic != nil) {
-//                NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:dataDic];
-//                [dict removeObjectForKey:@"dateType"];
-//                [dict removeObjectForKey:@"tag"];
-//
-//                [userDefault setObject:dict forKey:kSessionDataKey];
-//                [userDefault synchronize];
-//            }
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            if (dataDic != nil) {
+                NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:dataDic];
+                [dict removeObjectForKey:@"dateType"];
+                [dict removeObjectForKey:@"tag"];
+
+                [userDefault setObject:dict forKey:kSessionDataKey];
+                [userDefault synchronize];
+            }
             successBlock(dataDic,nil);
         }else{
             failure(error);
@@ -140,20 +140,26 @@
 
 /*
  获取码表列表
+
+ 来源渠道  CHANNEL
+ 用户身份  USERTYPE
+ 物业形态  
+
  */
 
 + (NSURLSessionDataTask *)user_getCodeListWithTag:(NSString *)tag
-                                          success:(void (^) (id info,NSString *msg))successBlock
+                                          success:(void (^) (NSArray * tagList ,NSString *msg))successBlock
                                           failure:(void (^) (NSError *error))failure{
     
-    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"user/visitorList"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
+    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"user/dictList"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter){
+        
         [parameter setObject:tag forField:@"tag"];
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSError *error = [GHNetworkUtil filterLoginData:responseObject];
         if (error == nil) {
             NSDictionary *dataDic = [responseObject objectForKey:@"data"];
-            NSArray * list = [NSArray yy_modelArrayWithClass:[CoustomerList class] json:dataDic[@"data"]];
+            NSArray * list = [NSArray yy_modelArrayWithClass:[ChannelModel class] json:dataDic];
             successBlock(list,nil);
         }else{
             failure(error);
@@ -188,7 +194,7 @@
                                                    success:(void (^) (id info,NSString *msg))successBlock
                                                    failure:(void (^) (NSError *error))failure{
     
-    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"mod/addVisitor"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
+    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"visitor/mod/addVisitor"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
         [parameter setObject:userId forField:@"id"];
         [parameter setObject:ownerName forField:@"ownerName"];
         [parameter setObject:phone forField:@"phone"];

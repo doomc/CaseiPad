@@ -63,7 +63,31 @@ static NSString * const cellId = @"TagCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     TagCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
-    cell.titleLabel.text = self.dataArray[indexPath.row];
+    if (self.dataArray) {
+        ChannelModel * channel = self.dataArray[indexPath.item];
+        cell.titleLabel.text = channel.label;
+
+        if ([self.isMark isEqualToString:@"0"]) {
+            if (channel.isSelectType) {
+                cell.titleLabel.textColor = [UIColor whiteColor];
+                [cell.titleImageBg setHidden:NO];
+                channel.isSelectType = NO;
+            }else{
+                cell.titleLabel.textColor = [UIColor colorWithHexString:@"35363B"];
+                [cell.titleImageBg setHidden:YES];
+
+            }
+        }else{
+            if (channel.isSelectType) {
+                cell.titleLabel.textColor = [UIColor whiteColor];
+                [cell.titleImageBg setHidden:NO];
+            }else{
+                cell.titleLabel.textColor = [UIColor colorWithHexString:@"35363B"];
+                [cell.titleImageBg setHidden:YES];
+            }
+        }
+        
+    }
     return cell;
  
 }
@@ -89,9 +113,37 @@ static NSString * const cellId = @"TagCell";
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    
-    NSLog(@"cell ----- row == %ld",indexPath.item);
 
+    if ([self.isMark isEqualToString:@"1"]) {//多选
+        NSMutableArray * chooseArray = [NSMutableArray array];
+        ChannelModel * channel = self.dataArray[indexPath.item];
+        //当前被选中 则反选
+        if (channel.isSelectType) {
+            channel.isSelectType = NO;
+        }else{
+            channel.isSelectType = YES;
+        }
+        for (ChannelModel * tag in self.dataArray) {
+            if (tag.isSelectType) {
+                [chooseArray addObject:tag.label];
+            }else{
+                [chooseArray removeObject:tag.label];
+            }
+        }
+        NSString * json = [chooseArray componentsJoinedByString:@","];
+        if (self.exchangeBlock) {
+            self.exchangeBlock(json);
+        }
+        [self.collectionView reloadData];
+        
+    }else{//单选
+        ChannelModel * channel = self.dataArray[indexPath.item];
+        if (self.exchangeBlock) {
+            self.exchangeBlock(channel.label);
+        }
+        channel.isSelectType = YES;
+        [self.collectionView reloadData];
+    }
 }
 
 

@@ -25,8 +25,8 @@
 }
 
 
-- (NSArray *)getSERVERURL_CaseArray{
-    NSArray *serverUrls = [NSArray arrayWithObjects:@"https://api.tq-service.com/v5/tqapp/community_api/api/",@"https://dev-mml.tq-service.com/tqdata/api/",@"http://10.15.208.147:8080/community_api/api/",@"http://192.168.10.184:9000/",nil];
+- (NSArray *)getSERVERURL_CaseArray{ //tqdata/template/
+    NSArray *serverUrls = [NSArray arrayWithObjects:@"http://digital.tq-service.com/tqdata/api/",@"https://dev-mml.tq-service.com/tqdata/api/",@"http://10.15.208.134:9002/tqdata/api/",@"http://192.168.10.184:9000/",nil];
     return serverUrls;
 }
 

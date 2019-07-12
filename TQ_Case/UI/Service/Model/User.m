@@ -21,3 +21,9 @@
 
 @end
 
+
+@implementation ChannelModel
+
+ 
+
+@end

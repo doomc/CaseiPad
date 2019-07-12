@@ -19,12 +19,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="124" height="110"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="123" translatesAutoresizingMaskIntoConstraints="NO" id="DNK-Yu-ZwR">
-                        <rect key="frame" x="13" y="11" width="98" height="98"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DNK-Yu-ZwR">
+                        <rect key="frame" x="12" y="12" width="100" height="96"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="98" id="M9b-dn-pxi"/>
-                            <constraint firstAttribute="width" constant="98" id="oXQ-dV-4Pr"/>
+                            <constraint firstAttribute="height" constant="96" id="M9b-dn-pxi"/>
+                            <constraint firstAttribute="width" constant="100" id="oXQ-dV-4Pr"/>
                         </constraints>
                     </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_customer_normal" translatesAutoresizingMaskIntoConstraints="NO" id="CMu-Xr-Mdy">
@@ -37,7 +37,7 @@
                     </imageView>
                 </subviews>
             </view>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="DNK-Yu-ZwR" firstAttribute="centerX" secondItem="SEy-5g-ep8" secondAttribute="centerX" id="Cjq-TQ-gLa"/>
                 <constraint firstItem="CMu-Xr-Mdy" firstAttribute="centerY" secondItem="SEy-5g-ep8" secondAttribute="centerY" id="DlG-uh-D2R"/>
@@ -46,11 +46,14 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <size key="customSize" width="124" height="109"/>
+            <connections>
+                <outlet property="avatarImageView0" destination="DNK-Yu-ZwR" id="o3q-PH-KXB"/>
+                <outlet property="selectImage0" destination="CMu-Xr-Mdy" id="2PV-1F-g5o"/>
+            </connections>
             <point key="canvasLocation" x="-121.73913043478262" y="77.34375"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="123" width="1020" height="1020"/>
         <image name="user_customer_normal" width="121" height="108"/>
     </resources>
 </document>

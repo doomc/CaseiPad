@@ -47,12 +47,18 @@
                                                      success:(void (^) (NSArray * customerList,NSString *msg))successBlock
                                                      failure:(void (^) (NSError *error))failure;
 
+
 /*
  获取码表列表
+ 
+ 来源渠道  CHANNEL
+ 用户身份  USERTYPE
+ 物业形态  WYTYPE
+ 
  */
 
 + (NSURLSessionDataTask *)user_getCodeListWithTag:(NSString *)tag
-                                          success:(void (^) (id info,NSString *msg))successBlock
+                                          success:(void (^) (NSArray * tagList ,NSString *msg))successBlock
                                           failure:(void (^) (NSError *error))failure;
 
 

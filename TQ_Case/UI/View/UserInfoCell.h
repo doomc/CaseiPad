@@ -10,13 +10,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^TextFieldBlock)(NSString * name ,NSString * phone);
+
 @interface UserInfoCell : UITableViewCell
+
+
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *userPhoneTextField;
 //顾问名称
 @property (weak, nonatomic) IBOutlet UIButton *counselorNameButton;
-@property (weak, nonatomic) IBOutlet UIButton *counselorAvatar;
+@property (weak, nonatomic) IBOutlet UIImageView *counselorAvatars;
 
+@property (copy, nonatomic) TextFieldBlock textFieldBlock;
 
 + (CGFloat)configCell0HeightWithInfo:(nullable id)info;
 + (UserInfoCell *)configCell0:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;

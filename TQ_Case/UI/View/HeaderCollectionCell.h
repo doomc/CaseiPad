@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^SelectAvatarBlock)(NSMutableArray * selectArray);
+
 @interface HeaderCollectionCell : UITableViewCell
 
 @property (strong , nonatomic) NSArray *dataArray;
@@ -18,9 +20,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView0;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView1;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionView0ConstrainsHeight;
+//加载更多
+@property (weak, nonatomic) IBOutlet UIButton *loadingMoreButton;
+ 
 
-+ (CGFloat)configCell0HeightWithInfo:(nullable id)info;
+//未选择用户显示
+@property (weak, nonatomic) IBOutlet UIView *noChooseView;
+//无数据标签
+@property (weak, nonatomic) IBOutlet UILabel *noDataLabel;
+
+@property (copy, nonatomic) SelectAvatarBlock selectAvatarBlock;
+
++ (CGFloat)configCell0HeightWithInfo:(CGFloat)cell0Height;
+
 + (HeaderCollectionCell *)configCell0:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;
+
+-(void)reloadCollectionViewData0;
+-(void)reloadCollectionViewData1;
 
 @end
 

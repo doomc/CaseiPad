@@ -21,9 +21,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.userNameTextField.text = @"admin";
-    self.passwordTextField.text = @"123123";
-    
+//    self.userNameTextField.text = @"admin";
+//    self.passwordTextField.text = @"123123";
+//
     [self.userNameTextField addTarget:self action:@selector(userloginTextField:) forControlEvents:UIControlEventEditingChanged];
     [self.passwordTextField addTarget:self action:@selector(userloginTextField:) forControlEvents:UIControlEventEditingChanged];
 //    

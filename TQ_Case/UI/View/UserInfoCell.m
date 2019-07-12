@@ -9,17 +9,24 @@
 #import "UserInfoCell.h"
 
 @implementation UserInfoCell
-
+{
+    NSString * _name;
+    NSString * _phone;
+}
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
     self.backgroundColor = [UIColor clearColor];
 
-    self.counselorAvatar.clipsToBounds = YES;
-    self.counselorAvatar.layer.cornerRadius = 21;
-    self.counselorAvatar.layer.borderWidth = 1;
-    self.counselorAvatar.layer.borderColor = [UIColor colorWithRed:10/255.0 green:109/255.0 blue:254/255.0 alpha:1].CGColor;
+    self.counselorAvatars.clipsToBounds = YES;
+    self.counselorAvatars.layer.cornerRadius = 21;
+    self.counselorAvatars.layer.borderWidth = 1;
+    self.counselorAvatars.layer.borderColor = [UIColor colorWithRed:10/255.0 green:109/255.0 blue:254/255.0 alpha:1].CGColor;
 
+    [self.userPhoneTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingChanged];
+    [self.userNameTextField addTarget:self action:@selector(textFieldDidBeginEditing:) forControlEvents:UIControlEventEditingChanged];
+
+    
 }
 
 + (CGFloat)configCell0HeightWithInfo:(nullable id)info{
@@ -43,4 +50,21 @@
     // Configure the view for the selected state
 }
 
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+    if (self.userNameTextField == textField) {
+        _name = textField.text;
+    }
+    if (self.userPhoneTextField == textField) {
+        _phone = textField.text;
+    }
+    
+    if (self.textFieldBlock) {
+        self.textFieldBlock(_name, _phone);
+    }
+}
+
+
 @end
+

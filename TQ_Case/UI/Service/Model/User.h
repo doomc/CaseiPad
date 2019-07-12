@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class CoustomerList;
+@class CoustomerList,ChannelModel;
 @interface User : NSObject
 
 @property (nonatomic, copy) NSString *userName;
@@ -29,5 +29,20 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *projectId;
 @property (nonatomic, copy) NSString *faceUrl;
+//判断是不是客户  如果是客户排在首位
+@property (nonatomic, assign) BOOL isFirstCustomer;
+@property (nonatomic, assign) BOOL isSelectAvatar;
+
 
 @end
+
+@interface ChannelModel : NSObject
+
+@property (nonatomic, copy) NSString *type;
+@property (nonatomic, copy) NSString *label;
+@property (nonatomic, copy) NSString *value;
+@property (nonatomic, assign) BOOL isSelectType;
+
+
+@end
+

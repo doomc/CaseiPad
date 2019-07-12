@@ -9,6 +9,7 @@
 #import "HomeVC.h"
 #import "RecordInfoVC.h"
 #import "ScanVC.h"
+#import "LoginVC.h"
 
 @interface HomeVC ()
 
@@ -51,9 +52,10 @@
         
     }];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        
+       
+        [self postNotification:kLoginOutSuccessNotification];
  
+        
     }];
     [alertController addAction:cancel];
     [alertController addAction:ok];
