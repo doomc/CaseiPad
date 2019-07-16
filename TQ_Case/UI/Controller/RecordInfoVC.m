@@ -12,7 +12,7 @@
 #import "MenuTagCell.h"//标签
 #import "RemarkCell.h"//文本
 #import "PopViewController.h"
-
+#import "HomeVC.h"
 
 @interface RecordInfoVC ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,PopViewControllerDelegate>
 
@@ -47,7 +47,11 @@
     // Do any additional setup after loading the view.
   
     self.kcollectionView0Height = 226;
-    
+    //二维码自动录入
+    if (self.scanUserInfo) {
+        self.ownerPhone  =  self.scanUserInfo.phone;
+    }
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doRotateAction:) name:UIDeviceOrientationDidChangeNotification object:nil];
     
     self.tableView.backgroundColor = [UIColor clearColor];
@@ -207,6 +211,7 @@
             cell.exchangeBlock = ^(NSString * _Nonnull json) {
                 NSLog(@"json === %@",json);
                 weakSelf.userType = json;
+             
             };
             cell.titleLabel.text = @"用户身份";
             cell.detailLabel.text = @"（请选择用户身份，可多选！）";
@@ -216,13 +221,13 @@
         case 4:{// 物业形态标签
             MenuTagCell * cell = [MenuTagCell configCell0:tableView indexPath:indexPath];
             cell.isMark = @"0";
+            cell.titleLabel.text = @"物业形态";
+            cell.detailLabel.text = @"（请选择物业形态，单选！）";
+            cell.dataArray = self.titles2;
             cell.exchangeBlock = ^(NSString * _Nonnull json) {
                 NSLog(@"json === %@",json);
                 weakSelf.wyType = json;
             };
-            cell.titleLabel.text = @"物业形态";
-            cell.detailLabel.text = @"（请选择物业形态，单选！）";
-            cell.dataArray = self.titles2;
             return cell;
         }; break;
         case 5:{//备注信息
@@ -269,7 +274,15 @@
 #pragma mark  - backAction
 - (IBAction)backAction:(id)sender {
  
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self.backName isEqualToString:@"RecordInfoVC"]) {
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[HomeVC class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 
 }
 
@@ -299,7 +312,7 @@
                                               projectId:[APPDELEGATE userManager].projectId
                                                  soruce:self.sourceType
                                              employeeId:self.counselorId
-                                                 openId:@""
+                                                openId:self.scanUserInfo.openId?self.scanUserInfo.openId:@""
                                                  gender:@""
                                                ageGroup:@""
                                                   glass:@""

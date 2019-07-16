@@ -69,7 +69,7 @@
 /****************************************************/
 - (IBAction)visiterRegisterAction:(id)sender {
 
-    ScanVC * controller = [ScanVC new];
+    __strong ScanVC * controller = [ScanVC new];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -79,7 +79,8 @@
 #pragma mark - 信息录入
 /****************************************************/
 - (IBAction)infoRecordAction:(id)sender {
-    RecordInfoVC * controller = [RecordInfoVC new];
+
+    __strong  RecordInfoVC * controller = [RecordInfoVC new];
     [self.navigationController pushViewController:controller animated:NO];
 }
 

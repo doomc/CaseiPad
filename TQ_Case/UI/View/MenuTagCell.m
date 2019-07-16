@@ -67,7 +67,15 @@ static NSString * const cellId = @"TagCell";
         ChannelModel * channel = self.dataArray[indexPath.item];
         cell.titleLabel.text = channel.label;
 
-        if ([self.isMark isEqualToString:@"0"]) {
+        if ([self.isMark isEqualToString:@"1"]) {//如果是多选
+            if (channel.isSelectType) {
+                cell.titleLabel.textColor = [UIColor whiteColor];
+                [cell.titleImageBg setHidden:NO];
+            }else{
+                cell.titleLabel.textColor = [UIColor colorWithHexString:@"35363B"];
+                [cell.titleImageBg setHidden:YES];
+            }
+        }else{
             if (channel.isSelectType) {
                 cell.titleLabel.textColor = [UIColor whiteColor];
                 [cell.titleImageBg setHidden:NO];
@@ -75,18 +83,8 @@ static NSString * const cellId = @"TagCell";
             }else{
                 cell.titleLabel.textColor = [UIColor colorWithHexString:@"35363B"];
                 [cell.titleImageBg setHidden:YES];
-
-            }
-        }else{
-            if (channel.isSelectType) {
-                cell.titleLabel.textColor = [UIColor whiteColor];
-                [cell.titleImageBg setHidden:NO];
-            }else{
-                cell.titleLabel.textColor = [UIColor colorWithHexString:@"35363B"];
-                [cell.titleImageBg setHidden:YES];
             }
         }
-        
     }
     return cell;
  
@@ -145,6 +143,7 @@ static NSString * const cellId = @"TagCell";
         [self.collectionView reloadData];
     }
 }
+
 
 
 @end

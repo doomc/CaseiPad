@@ -13,6 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RecordInfoVC : BSViewController
 
+//扫码后获取到的用户信息
+@property (nonatomic,strong) ScanUserInfo *scanUserInfo;
+@property (nonatomic,copy) NSString * backName;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

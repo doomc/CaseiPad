@@ -27,3 +27,16 @@
  
 
 @end
+
+@implementation ScanModel
+
+
+
+@end
+@implementation ScanUserInfo
+
+
+
+@end
+
+
