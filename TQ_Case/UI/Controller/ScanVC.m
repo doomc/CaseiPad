@@ -17,6 +17,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
 
 @property (nonatomic,strong) ScanModel *scanModel;
+
+@property (nonatomic, strong) RMQConnection *conn;
+@property (nonatomic, strong) RMQQueue *q;
+
 @end
 
 @implementation ScanVC
@@ -39,6 +43,13 @@
     [self getCodePost];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.conn close];
+
+    //[self.q delete];
+}
+
 
 /****************************************************/
 #pragma mark -RabbitMQ
@@ -49,43 +60,41 @@
     
     NSString* topic = [NSString stringWithFormat:@"iPad/%@",[APPDELEGATE userManager].projectId];
     /** 创建连接 */
-    RMQConnection * conn = [[RMQConnection alloc] initWithUri:url5 delegate:[RMQConnectionDelegateLogger new]];
-    [conn start];
+    self.conn = [[RMQConnection alloc] initWithUri:url5 delegate:[RMQConnectionDelegateLogger new]];
+    [_conn start];
     /** 创建信道 */
-    id<RMQChannel> ch = [conn createChannel];
+    id<RMQChannel> ch = [_conn createChannel];
     /** 创建交换器 */
     RMQExchange *x = [ch topic:topic options:RMQExchangeDeclareNoOptions];
     //绑定queue
-    RMQQueue *q = [ch queue:topic options:RMQQueueDeclareNoOptions];
+    self.q = [ch queue:topic options:RMQQueueDeclareNoOptions];
     /** 绑定交换器 */
-    [q bind:x];
+    [_q bind:x];
     /** 订阅消息 */
-
     __weak typeof(self)weakSelf = self;
-    [q subscribe:^(RMQMessage * _Nonnull message) {
-        __strong typeof(self)strongSelf = weakSelf;
+    [_q subscribe:^(RMQMessage * _Nonnull message) {
+        __strong typeof(weakSelf)strongSelf = weakSelf;
         NSString * jsonData= [[NSString alloc] initWithData:message.body encoding:NSUTF8StringEncoding];
         NSLog(@"Received = %@",jsonData);
         strongSelf.scanModel = [ScanModel yy_modelWithJSON:jsonData];
         NSLog(@" scanModel =%@ ",strongSelf.scanModel);
 
-        if (strongSelf.scanModel.method == nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                __strong typeof(self)strong = self;
-                //签到中
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            __strong typeof(strongSelf)strong = strongSelf;
+            //签到中
+            if (strongSelf.scanModel.method == nil) {
                 [strong.loadingLabel setHidden:NO];
-            });
-        }
-        if ([weakSelf.scanModel.method isEqualToString:@"ipad_user_info"]) {//已经获取到用户信息 此处需要跳转到资料录入页面
-            dispatch_async(dispatch_get_main_queue(), ^{
-                __strong typeof(self)strong = self;
-
+            }
+            if ([weakSelf.scanModel.method isEqualToString:@"ipad_user_info"]) {//已经获取到用户信息 此处需要跳转到资料录入页面
                 RecordInfoVC * userInfoVC = [RecordInfoVC new];
                 userInfoVC.scanUserInfo = strong.scanModel.param;
                 userInfoVC.backName = @"RecordInfoVC";
                 [strong.navigationController pushViewController:userInfoVC animated:NO];
-            });
-        }
+
+            }
+        });
+        
     }];
 }
 

@@ -83,18 +83,22 @@
     //获取码表 来源渠道
     [GHNetworkManager user_getCodeListWithTag:@"CHANNEL" success:^(NSArray *tagList, NSString *msg) {
         weakSelf.titles0 = tagList;
+        [weakSelf.tableView reloadData];
     } failure:^(NSError *error) {
     }];
     
     //用户身份
     [GHNetworkManager user_getCodeListWithTag:@"USERTYPE" success:^(NSArray *tagList, NSString *msg) {
         weakSelf.titles1 = tagList;
+        [weakSelf.tableView reloadData];
+
     } failure:^(NSError *error) {
     }];
     
     //物业形态
     [GHNetworkManager user_getCodeListWithTag:@"PROPERTYTYPE" success:^(NSArray *tagList, NSString *msg) {
         weakSelf.titles2 = tagList;
+        [weakSelf.tableView reloadData];
     } failure:^(NSError *error) {
         
     }];
@@ -200,7 +204,7 @@
             cell.isMark =@"1";
             cell.dataArray = self.titles0;
             cell.exchangeBlock = ^(NSString * _Nonnull json) {
-                NSLog(@"json === %@",json);
+                NSLog(@"渠道标签 === %@",json);
                 weakSelf.sourceType = json;
             };
             return cell;
@@ -209,7 +213,7 @@
             MenuTagCell * cell = [MenuTagCell configCell0:tableView indexPath:indexPath];
             cell.isMark =@"1";
             cell.exchangeBlock = ^(NSString * _Nonnull json) {
-                NSLog(@"json === %@",json);
+                NSLog(@"身份标签 === %@",json);
                 weakSelf.userType = json;
              
             };
@@ -225,7 +229,7 @@
             cell.detailLabel.text = @"（请选择物业形态，单选！）";
             cell.dataArray = self.titles2;
             cell.exchangeBlock = ^(NSString * _Nonnull json) {
-                NSLog(@"json === %@",json);
+                NSLog(@"物业形态 === %@",json);
                 weakSelf.wyType = json;
             };
             return cell;

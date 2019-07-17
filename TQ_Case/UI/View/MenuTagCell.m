@@ -79,7 +79,6 @@ static NSString * const cellId = @"TagCell";
             if (channel.isSelectType) {
                 cell.titleLabel.textColor = [UIColor whiteColor];
                 [cell.titleImageBg setHidden:NO];
-                channel.isSelectType = NO;
             }else{
                 cell.titleLabel.textColor = [UIColor colorWithHexString:@"35363B"];
                 [cell.titleImageBg setHidden:YES];
@@ -140,6 +139,13 @@ static NSString * const cellId = @"TagCell";
             self.exchangeBlock(channel.label);
         }
         channel.isSelectType = YES;
+        [self.dataArray enumerateObjectsUsingBlock:^(ChannelModel * _Nonnull  channel, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (indexPath.item == idx) {
+                channel.isSelectType = YES;
+            }else{
+                channel.isSelectType = NO;
+            }
+        }];
         [self.collectionView reloadData];
     }
 }

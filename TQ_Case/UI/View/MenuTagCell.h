@@ -21,7 +21,7 @@ typedef void(^ExchangeJsonBlock)(NSString * json);
 @property (strong , nonatomic) NSArray *dataArray;
 //判断是多选还是单选 isMark = @“1” 多选  isMark = @“0”单选
 @property (copy , nonatomic) NSString * isMark;
-@property (copy, nonatomic) ExchangeJsonBlock exchangeBlock;
+@property (copy , nonatomic) ExchangeJsonBlock exchangeBlock;
 
 + (CGFloat)configCell0HeightWithInfo:(nullable id)info;
 + (MenuTagCell *)configCell0:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;

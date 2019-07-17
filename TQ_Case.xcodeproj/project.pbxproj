@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		183D20C922D34C6000C5FA8D /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183D20C822D34C6000C5FA8D /* LoginVC.m */; };
-		183D20CC22D34C7100C5FA8D /* ScanVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183D20CB22D34C7100C5FA8D /* ScanVC.m */; };
 		183D20CF22D34C9A00C5FA8D /* HomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183D20CE22D34C9A00C5FA8D /* HomeVC.m */; };
 		183D20DA22D42EFC00C5FA8D /* UserHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183D20D822D42EFC00C5FA8D /* UserHeaderCell.m */; };
 		183D20DB22D42EFC00C5FA8D /* UserHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183D20D922D42EFC00C5FA8D /* UserHeaderCell.xib */; };
@@ -118,6 +117,7 @@
 		18BA57F022D32B5200805CA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18BA57EF22D32B5200805CA1 /* Assets.xcassets */; };
 		18BA57F322D32B5200805CA1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18BA57F122D32B5200805CA1 /* LaunchScreen.storyboard */; };
 		18BA57F622D32B5200805CA1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA57F522D32B5200805CA1 /* main.m */; };
+		18C0CC0022DDC3CB0034FE34 /* ScanVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C0CBFF22DDC3CB0034FE34 /* ScanVC.m */; };
 		18C64A8522D5A7D200EA31B2 /* LoginVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C64A8422D5A7D100EA31B2 /* LoginVC.xib */; };
 		18C64A8722D5A83A00EA31B2 /* HomeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C64A8622D5A83A00EA31B2 /* HomeVC.xib */; };
 		18C64A8922D5A85F00EA31B2 /* ScanVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C64A8822D5A85F00EA31B2 /* ScanVC.xib */; };
@@ -166,7 +166,6 @@
 		183D20C722D34C6000C5FA8D /* LoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
 		183D20C822D34C6000C5FA8D /* LoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		183D20CA22D34C7100C5FA8D /* ScanVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScanVC.h; sourceTree = "<group>"; };
-		183D20CB22D34C7100C5FA8D /* ScanVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScanVC.m; sourceTree = "<group>"; };
 		183D20CD22D34C9A00C5FA8D /* HomeVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeVC.h; sourceTree = "<group>"; };
 		183D20CE22D34C9A00C5FA8D /* HomeVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeVC.m; sourceTree = "<group>"; };
 		183D20D722D42EFC00C5FA8D /* UserHeaderCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserHeaderCell.h; sourceTree = "<group>"; };
@@ -374,6 +373,7 @@
 		18BA57F222D32B5200805CA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		18BA57F422D32B5200805CA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18BA57F522D32B5200805CA1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		18C0CBFF22DDC3CB0034FE34 /* ScanVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanVC.m; sourceTree = "<group>"; };
 		18C64A8422D5A7D100EA31B2 /* LoginVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginVC.xib; sourceTree = "<group>"; };
 		18C64A8622D5A83A00EA31B2 /* HomeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeVC.xib; sourceTree = "<group>"; };
 		18C64A8822D5A85F00EA31B2 /* ScanVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScanVC.xib; sourceTree = "<group>"; };
@@ -482,7 +482,7 @@
 				183D20CE22D34C9A00C5FA8D /* HomeVC.m */,
 				18C64A8622D5A83A00EA31B2 /* HomeVC.xib */,
 				183D20CA22D34C7100C5FA8D /* ScanVC.h */,
-				183D20CB22D34C7100C5FA8D /* ScanVC.m */,
+				18C0CBFF22DDC3CB0034FE34 /* ScanVC.m */,
 				18C64A8822D5A85F00EA31B2 /* ScanVC.xib */,
 				1890375C22D43BDB003A4051 /* RecordInfoVC.h */,
 				1890375D22D43BDB003A4051 /* RecordInfoVC.m */,
@@ -1392,7 +1392,6 @@
 				1869D67922D4C11A00C3ED34 /* GHAppEngine.m in Sources */,
 				1869D65422D4C11900C3ED34 /* UIView+Blank.m in Sources */,
 				1869D64922D4C11900C3ED34 /* UIView+GH.m in Sources */,
-				183D20CC22D34C7100C5FA8D /* ScanVC.m in Sources */,
 				1869D66422D4C11A00C3ED34 /* XTThread.m in Sources */,
 				1869D63B22D4C11900C3ED34 /* GHRefreshCollectionView.m in Sources */,
 				1869D66822D4C11A00C3ED34 /* XTSystem.m in Sources */,
@@ -1419,6 +1418,7 @@
 				1869D64822D4C11900C3ED34 /* UIColor+XTExtension.m in Sources */,
 				18EFDFB822D5702100D996B7 /* User.m in Sources */,
 				1869D67722D4C11A00C3ED34 /* GHVersionManager.m in Sources */,
+				18C0CC0022DDC3CB0034FE34 /* ScanVC.m in Sources */,
 				18BA57F622D32B5200805CA1 /* main.m in Sources */,
 				1869D67222D4C11A00C3ED34 /* NSString+GH.m in Sources */,
 				1869D65022D4C11900C3ED34 /* WQRefreshCollectionView.m in Sources */,
@@ -1636,7 +1636,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "doom.TQ-Case";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1666,7 +1666,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "doom.TQ-Case";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
