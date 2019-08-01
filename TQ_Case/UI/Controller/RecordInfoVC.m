@@ -14,7 +14,7 @@
 #import "PopViewController.h"
 #import "HomeVC.h"
 
-@interface RecordInfoVC ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,PopViewControllerDelegate>
+@interface RecordInfoVC ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,PopViewControllerDelegate,UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *commitButton;
@@ -38,6 +38,15 @@
 @property (strong, nonatomic) CoustomerList * userInfo;
 
 @property (assign , nonatomic) CGFloat kcollectionView0Height;
+
+//添加抖动手势
+@property (strong, nonatomic) UILongPressGestureRecognizer * shakeGes;
+//添加移动手势
+@property (strong, nonatomic) UILongPressGestureRecognizer * longPressMoveGes;
+//是否抖动
+@property (assign, nonatomic) BOOL isBegin;
+
+
 @end
 
 @implementation RecordInfoVC
@@ -144,11 +153,15 @@
                 [weakSelf.tableView reloadData];
                 if (cell.loadingMoreButton.selected) {
                     [cell.loadingMoreButton setTitle:@"点击回收" forState:UIControlStateNormal];
+                    [cell.loadingMoreButton  setImage:[UIImage imageNamed:@"arrow_up"] forState:UIControlStateNormal];
+
                     CGFloat height = cell.collectionView0.collectionViewLayout.collectionViewContentSize.height;
+                    
                     cell.collectionView0ConstrainsHeight.constant = self.kcollectionView0Height =   height > 226 ? height :226;
                     NSLog(@"sssssssssssss %.f",height);
                 }else{
                     [cell.loadingMoreButton setTitle:@"点击加载更多" forState:UIControlStateNormal];
+                    [cell.loadingMoreButton  setImage:[UIImage imageNamed:@"arrow_down"] forState:UIControlStateNormal];
                     cell.collectionView0ConstrainsHeight.constant = self.kcollectionView0Height = 226;
                 }
 
@@ -201,8 +214,9 @@
         }; break;
         case 2:{//来源渠道标签
             MenuTagCell * cell = [MenuTagCell configCell0:tableView indexPath:indexPath];
-            cell.isMark =@"1";
+            cell.isMark =@"0";
             cell.dataArray = self.titles0;
+            cell.detailLabel.text = @"（请选择来源渠道，单选！）";
             cell.exchangeBlock = ^(NSString * _Nonnull json) {
                 NSLog(@"渠道标签 === %@",json);
                 weakSelf.sourceType = json;
@@ -211,14 +225,14 @@
         }; break;
         case 3:{//用户身份标签
             MenuTagCell * cell = [MenuTagCell configCell0:tableView indexPath:indexPath];
-            cell.isMark =@"1";
+            cell.isMark =@"0";
             cell.exchangeBlock = ^(NSString * _Nonnull json) {
                 NSLog(@"身份标签 === %@",json);
                 weakSelf.userType = json;
              
             };
             cell.titleLabel.text = @"用户身份";
-            cell.detailLabel.text = @"（请选择用户身份，可多选！）";
+            cell.detailLabel.text = @"（请选择用户身份，单选！）";
             cell.dataArray = self.titles1;
             return cell;
         }; break;

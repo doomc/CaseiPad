@@ -122,9 +122,9 @@ static NSString * const cellId = @"TagCell";
         }
         for (ChannelModel * tag in self.dataArray) {
             if (tag.isSelectType) {
-                [chooseArray addObject:tag.label];
+                [chooseArray addObject:tag.value];
             }else{
-                [chooseArray removeObject:tag.label];
+                [chooseArray removeObject:tag.value];
             }
         }
         NSString * json = [chooseArray componentsJoinedByString:@","];
@@ -136,7 +136,7 @@ static NSString * const cellId = @"TagCell";
     }else{//单选
         ChannelModel * channel = self.dataArray[indexPath.item];
         if (self.exchangeBlock) {
-            self.exchangeBlock(channel.label);
+            self.exchangeBlock(channel.value);
         }
         channel.isSelectType = YES;
         [self.dataArray enumerateObjectsUsingBlock:^(ChannelModel * _Nonnull  channel, NSUInteger idx, BOOL * _Nonnull stop) {

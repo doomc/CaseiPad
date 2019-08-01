@@ -74,12 +74,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJq-rp-KLc">
-                                <rect key="frame" x="273.5" y="0.0" width="92" height="40"/>
+                                <rect key="frame" x="260.5" y="0.0" width="118" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="dU0-ZZ-Je8"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="点击查看更多">
+                                <state key="normal" title="点击查看更多" image="arrow_down">
                                     <color key="titleColor" red="0.039215686270000001" green="0.42745098040000001" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
@@ -196,6 +196,7 @@
     </objects>
     <resources>
         <image name="add" width="15" height="15"/>
+        <image name="arrow_down" width="26" height="8"/>
         <image name="noHeaderInfoView" width="932" height="192"/>
         <image name="user_title_placehoder" width="22" height="15"/>
     </resources>
