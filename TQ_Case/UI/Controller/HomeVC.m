@@ -10,6 +10,7 @@
 #import "RecordInfoVC.h"
 #import "ScanVC.h"
 #import "LoginVC.h"
+#import "NoticePopView.h"
 
 @interface HomeVC ()
 
@@ -20,6 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //访客到来
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(visitorComeInNotification) name:kNotificationVisitorComeInNotification object:nil];
     
 }
 
@@ -85,7 +89,25 @@
 }
 
 
+/****************************************************/
+#pragma mark - 访客通知 NoticePopView
+/****************************************************/
+-(void)visitorComeInNotification{
+    
+    ScanModel * model = [ShareManager instanceManager].scanModel;
+    NSLog(@"访客通知 method == %@",model.method);
 
+    NoticePopView * alertView = [NoticePopView initAlertShowCustomer:@"李白"
+                                                          visitCount:@"2次"
+                                                              worker:@"杜甫"
+                                                           headerUrl:@""
+                                                        confirmBlock:^(NoticePopView * _Nonnull popView) {
+                                                            [popView dismissWithAnimation:kAlertAnimationFade];
+                                                        } cancleBlock:^(NoticePopView * _Nonnull popView) {
+                                                            [popView dismissWithAnimation:kAlertAnimationBottom];
+                                                        }];
+    [alertView showInWindowAnimation:kAlertAnimationTop];
 
+}
 
 @end

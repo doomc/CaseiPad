@@ -8,8 +8,10 @@
 
 #import "LoginVC.h"
 #import "HomeVC.h"
+#import "RecordInfoVC.h"
 
 @interface LoginVC ()
+
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 
@@ -21,8 +23,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-//    self.userNameTextField.text = @"admin";
-//    self.passwordTextField.text = @"123123";
+    self.userNameTextField.text = @"admin";
+    self.passwordTextField.text = @"123123";
 
     [self.userNameTextField addTarget:self action:@selector(userloginTextField:) forControlEvents:UIControlEventEditingChanged];
     [self.passwordTextField addTarget:self action:@selector(userloginTextField:) forControlEvents:UIControlEventEditingChanged];
@@ -59,7 +61,10 @@
     WS(weakSelf);
     [self showLoadingWithMessage:Logining];
     [GHNetworkManager user_loginWithUsername:self.userNameTextField.text password:self.passwordTextField.text success:^(id info, NSString *msg) {
-        [self hideLoading];
+        [weakSelf hideLoading];
+        //创建MQ
+        [[ShareManager instanceManager] creatMQ];
+        
         HomeVC * controller = [HomeVC new];
         [weakSelf.navigationController pushViewController:controller animated:YES];
         
@@ -77,5 +82,8 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+
 
 @end

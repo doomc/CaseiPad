@@ -29,6 +29,7 @@
 #import "NetworkAPI.h"
 #import "GHAppEngine.h"
 #import "UICommon.h"
+#import "ShareManager.h"
 
 #endif
 
@@ -110,18 +111,27 @@
 #define kReachabilityNetworkNotification @"kReachabilityNetworkNotification"     //有网络
 
 #define kLotificationRefreshNotification @"kLotificationRefreshNotification"     //位置刷新
-
-
 #define kBackgroundColor RGB(245, 246, 247)
 
 
-//平台类型（0正式平台，1测试平台 2开发平台,3其他环境)
+//连接MQ后-签到中状态
+#define kNotificationSigningStatusNotification @"kNotificationSigningStatusNotification"
+//MQ扫描后进入用户信息-签到成功
+#define kNotificationSignedsStatusNotification @"kNotificationSignedsStatusNotification"
+//MQ推送-扫码成功
+#define kNotificationScanSuccessNotification @"kNotificationScanSuccessNotification"
 
+//MQ推送-访客通知
+#define kNotificationVisitorComeInNotification @"kNotificationVisitorComeInNotification"
+
+
+//平台类型（0正式平台，1测试平台 2开发平台,3其他环境)
 
 #define PLANTFORM                  0
 
 //1可切换平台0不可切换
 #define ISTEST                     1
+
 
 
 #define _AFNETWORKING_ALLOW_INVALID_SSL_CERTIFICATES_

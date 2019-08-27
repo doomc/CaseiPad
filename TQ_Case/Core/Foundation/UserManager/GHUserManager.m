@@ -28,6 +28,10 @@
     [self setUser:nil];
     [self setProjectId:nil];
     [self setUserId:nil];
+    [[ShareManager instanceManager] closeMQ];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+
 }
 
 

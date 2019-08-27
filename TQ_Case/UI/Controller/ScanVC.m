@@ -8,7 +8,6 @@
 
 #import "ScanVC.h"
 #import "RecordInfoVC.h"
-#import "RMQClient.h"
 
 @interface ScanVC ()
 
@@ -16,25 +15,28 @@
 @property (weak, nonatomic) IBOutlet UIImageView *loadingScanImage;
 @property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
 
-@property (nonatomic,strong) ScanModel *scanModel;
-
-@property (nonatomic, strong) RMQConnection *conn;
-@property (nonatomic, strong) RMQQueue *q;
-
 @end
 
 @implementation ScanVC
+
 - (IBAction)backAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    [self creatMQ];
+    //签到中
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signingNotification) name:kNotificationSigningStatusNotification object:nil];
+    
+    
+    //扫描成功
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signingNotification) name:kNotificationScanSuccessNotification object:nil];
+    
+    //签到成功
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signingNotification) name:kNotificationSignedsStatusNotification object:nil];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -45,88 +47,11 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self.conn close];
-
-    //[self.q delete];
+ 
 }
 
 
-/****************************************************/
-#pragma mark -RabbitMQ
-/****************************************************/
--(void)creatMQ{
-    //固定格式
-    NSString *url5 = @"amqp://face:face@mqtt.tq-service.com:5672/face";
-    
-    NSString* topic = [NSString stringWithFormat:@"iPad/%@",[APPDELEGATE userManager].projectId];
-    /** 创建连接 */
-    self.conn = [[RMQConnection alloc] initWithUri:url5 delegate:[RMQConnectionDelegateLogger new]];
-    [_conn start];
-    /** 创建信道 */
-    id<RMQChannel> ch = [_conn createChannel];
-    /** 创建交换器 */
-    RMQExchange *x = [ch topic:topic options:RMQExchangeDeclareNoOptions];
-    //绑定queue
-    self.q = [ch queue:topic options:RMQQueueDeclareNoOptions];
-    /** 绑定交换器 */
-    [_q bind:x];
-    /** 订阅消息 */
-    __weak typeof(self)weakSelf = self;
-    [_q subscribe:^(RMQMessage * _Nonnull message) {
-        __strong typeof(weakSelf)strongSelf = weakSelf;
-        NSString * jsonData= [[NSString alloc] initWithData:message.body encoding:NSUTF8StringEncoding];
-        NSLog(@"Received = %@",jsonData);
-        strongSelf.scanModel = [ScanModel yy_modelWithJSON:jsonData];
-        NSLog(@" scanModel =%@ ",strongSelf.scanModel);
 
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            __strong typeof(strongSelf)strong = strongSelf;
-            //签到中
-            if (strongSelf.scanModel.method == nil) {
-                [strong.loadingLabel setHidden:NO];
-            }
-            if ([weakSelf.scanModel.method isEqualToString:@"ipad_user_info"]) {//已经获取到用户信息 此处需要跳转到资料录入页面
-                RecordInfoVC * userInfoVC = [RecordInfoVC new];
-                userInfoVC.scanUserInfo = strong.scanModel.param;
-                userInfoVC.backName = @"RecordInfoVC";
-                [strong.navigationController pushViewController:userInfoVC animated:NO];
-
-            }
-        });
-        
-    }];
-}
-
-//发送方法 -- 只发送到同一个主题和queue
-- (void)sendMQ
-{
-    NSString *url = @"amqp://face:face@mqtt.tq-service.com:5672/face";//:5672/face
-    RMQConnection * connection = [[RMQConnection alloc] initWithUri:url delegate:[RMQConnectionDelegateLogger new]];
-    [connection start];
-    id<RMQChannel>channel = [connection createChannel];
-    RMQExchange * exchange = [channel topic:@"service/002" options:RMQExchangeDeclarePassive];
-    RMQQueue *queue = [channel queue:@"service/002"];
-    [queue bind:exchange];
-    [exchange publish:[@"输入发送的内容" dataUsingEncoding:NSUTF8StringEncoding] routingKey:@""];
-    [connection close];
-  
-}
-
-- (void)receiveMQ
-{
-    NSString* topic = [NSString stringWithFormat:@"iPad/%@",[APPDELEGATE userManager].projectId];
-    NSString *url = @"amqp://face:face@mqtt.tq-service.com:5672/face";//:5672/face
-    RMQConnection * conn = [[RMQConnection alloc] initWithUri:url delegate:[RMQConnectionDelegateLogger new]];
-    [conn start];
-    id<RMQChannel>channel = [conn createChannel];
-    RMQExchange * exchange = [channel topic:topic options:RMQExchangeDeclarePassive];
-    RMQQueue * queue = [channel queue:topic];
-    [queue bind:exchange];
-    [queue subscribe:^(RMQMessage * _Nonnull message) {
-        NSLog(@"接受信息 ==message:%@",[[NSString alloc] initWithData:message.body encoding:NSUTF8StringEncoding]);
-    }];
-}
 
 /*
 #pragma mark - Navigation
@@ -147,7 +72,7 @@
         [self hideLoading];
         
         self.scanImageUrl = [NSString stringWithFormat:@"%@", info[@"data"]];
-        [self.loadingScanImage yy_setImageWithURL:[NSURL URLWithString:self.scanImageUrl] placeholder:[UIImage imageNamed:@"sacnCode"]];
+        [self.loadingScanImage yy_setImageWithURL:[NSURL URLWithString:self.scanImageUrl] placeholder:nil];
         
     } failure:^(NSError *error) {
         [self hideLoading];
@@ -155,17 +80,33 @@
 }
 
 
--(void)getUserInfoMessage{
-    RecordInfoVC * controller = [RecordInfoVC new];
-    [self.navigationController pushViewController:controller animated:NO];
-}
 
-
--(ScanModel *)scanModel{
-    if (!_scanModel) {
-        _scanModel = [[ScanModel alloc]init];
+/****************************************************/
+#pragma mark - NSNotificationCenter
+/****************************************************/
+-(void)signingNotification{
+    
+#warning - 签到没有去重
+    //qr_consume 签到中
+    if ([[ShareManager instanceManager].scanModel.method isEqualToString:@"qr_consume"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.loadingLabel setHidden:NO];
+        });
     }
-    return _scanModel;
+        
+    //获取用户信息
+    if ([[ShareManager instanceManager].scanModel.method isEqualToString:@"ipad_user_info"]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            RecordInfoVC * userInfoVC = [RecordInfoVC new];
+            userInfoVC.scanUserInfo = [ShareManager instanceManager].scanModel.param;
+            userInfoVC.backName = @"RecordInfoVC";
+            [self.navigationController pushViewController:userInfoVC animated:NO];
+        });
+    }
+
 }
+
+
+
 
 @end

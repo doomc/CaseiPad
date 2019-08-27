@@ -13,6 +13,7 @@
 #import "RemarkCell.h"//文本
 #import "PopViewController.h"
 #import "HomeVC.h"
+#import "NoticePopView.h"
 
 @interface RecordInfoVC ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,PopViewControllerDelegate,UIGestureRecognizerDelegate>
 
@@ -311,7 +312,6 @@
     if (![self.ownerName isNotBlank]) {
         [OMGToast showWithText:@"姓名不能为空"];
         return;
-
     }
     if (![self.ownerPhone isNotBlank]) {
         [OMGToast showWithText:@"手机号不能为空"];
