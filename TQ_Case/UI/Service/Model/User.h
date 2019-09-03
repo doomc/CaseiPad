@@ -67,4 +67,34 @@
 @property (nonatomic, copy) NSString *dateType;
 @property (nonatomic, copy) NSString *openId;
 
+//**************访客信息***************//
+@property (nonatomic, copy) NSString *blackId;
+
+@property (nonatomic, copy) NSString *age;
+@property (nonatomic, copy) NSString *gender;
+@property (nonatomic, copy) NSString *glass;
+@property (nonatomic, copy) NSString *faceUrl;
+@property (nonatomic, copy) NSString *regFaceUrl;
+
+@property (nonatomic, copy) NSString *groupId;
+@property (nonatomic, copy) NSString *bkgUrl;
+@property (nonatomic, copy) NSString *visitorId;
+@property (nonatomic, copy) NSString *score;
+
+@property (nonatomic, copy) NSString *cameraName;
+@property (nonatomic, copy) NSString *cameraId;
+
+@property (nonatomic, copy) NSString *happenTime;
+@property (nonatomic, copy) NSString *insertTime;
+@property (nonatomic, copy) NSString *sendTime;
+
+//客户姓名
+@property (nonatomic, copy) NSString *userName;
+//置业顾问
+@property (nonatomic, copy) NSString *employeeName;
+//到访次数
+@property (nonatomic, copy) NSString *loginSize;
+
+
+
 @end

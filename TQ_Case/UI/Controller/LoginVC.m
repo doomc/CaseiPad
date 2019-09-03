@@ -28,6 +28,8 @@
 
     [self.userNameTextField addTarget:self action:@selector(userloginTextField:) forControlEvents:UIControlEventEditingChanged];
     [self.passwordTextField addTarget:self action:@selector(userloginTextField:) forControlEvents:UIControlEventEditingChanged];
+    
+    
 //    
 //    //默认
 //    [GHNetworkManager user_loginWithUsername:self.userNameTextField.text password:self.passwordTextField.text success:^(id info, NSString *msg) {

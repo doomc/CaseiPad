@@ -63,10 +63,14 @@
     [nnoticeView setBackgroundColor:[UIColor clearColor]];
     [nnoticeView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGTH)];
   
-    [nnoticeView.noticeLabel setAttributedText:[nnoticeView attributedString:worker]];
+    if (worker.length > 0) {
+        [nnoticeView.noticeLabel setAttributedText:[nnoticeView attributedString:worker]];
+    }else{
+        [nnoticeView.noticeLabel setText:@"请通知职业顾问准备接待"];  
+    }
     [nnoticeView.noticeNameLabel setText:customer];
     [nnoticeView.noticeCountLabel setText:visitCount];
-//    [nnoticeView.noticeHeadImageView yy_setImageWithURL:[NSURL URLWithString:headerUrl] placeholder:nil];
+    [nnoticeView.noticeHeadImageView yy_setImageWithURL:[NSURL URLWithString:headerUrl] placeholder:nil];
     
     [nnoticeView setCancelBlock:cancleBlock];
     [nnoticeView setConfirmBlock:confirmBlock];

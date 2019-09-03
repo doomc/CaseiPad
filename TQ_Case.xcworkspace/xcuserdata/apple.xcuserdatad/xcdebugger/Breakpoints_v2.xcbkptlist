@@ -68,11 +68,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TQ_Case/UI/Controller/ShareManager.m"
-            timestampString = "588590225.853978"
+            timestampString = "589092291.751703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "-creatMQ"
             landmarkType = "7">
          </BreakpointContent>
@@ -84,11 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TQ_Case/UI/Controller/ShareManager.m"
-            timestampString = "588590225.854051"
+            timestampString = "589092291.751803"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "-creatMQ"
             landmarkType = "7">
          </BreakpointContent>
@@ -100,27 +100,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TQ_Case/AppDelegate.m"
-            timestampString = "588588420.151872"
+            timestampString = "589092291.75186"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "-applicationWillResignActive:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TQ_Case/AppDelegate.m"
-            timestampString = "588588420.151925"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "-applicationDidEnterBackground:"
             landmarkType = "7">
          </BreakpointContent>

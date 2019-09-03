@@ -24,6 +24,10 @@
     
     //访客到来
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(visitorComeInNotification) name:kNotificationVisitorComeInNotification object:nil];
+
+    //进入后台
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeConnect) name:@"UIApplicationDidEnterBackgroundNotification" object:nil];
+
     
 }
 
@@ -95,19 +99,29 @@
 -(void)visitorComeInNotification{
     
     ScanModel * model = [ShareManager instanceManager].scanModel;
-    NSLog(@"访客通知 method == %@",model.method);
+    NSLog(@"访客通知 method == %@",model.method); 
+    dispatch_async( dispatch_get_main_queue(), ^{
+        NoticePopView * alertView = [NoticePopView initAlertShowCustomer:model.param.userName?model.param.userName:@"老客户" visitCount:[NSString stringWithFormat:@"%@次",model.param.loginSize]   worker:model.param.employeeName?model.param.employeeName:@""  headerUrl:model.param.faceUrl confirmBlock:^(NoticePopView * _Nonnull popView) {
+            [popView dismissWithAnimation:kAlertAnimationFade];
+        }cancleBlock:^(NoticePopView * _Nonnull popView) {
+            [popView dismissWithAnimation:kAlertAnimationBottom];
+        }];
+        [alertView showInWindowAnimation:kAlertAnimationTop];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (alertView) {
+                [alertView dismissWithAnimation:kAlertAnimationBottom];
+            }
+        });
+    });
 
-    NoticePopView * alertView = [NoticePopView initAlertShowCustomer:@"李白"
-                                                          visitCount:@"2次"
-                                                              worker:@"杜甫"
-                                                           headerUrl:@""
-                                                        confirmBlock:^(NoticePopView * _Nonnull popView) {
-                                                            [popView dismissWithAnimation:kAlertAnimationFade];
-                                                        } cancleBlock:^(NoticePopView * _Nonnull popView) {
-                                                            [popView dismissWithAnimation:kAlertAnimationBottom];
-                                                        }];
-    [alertView showInWindowAnimation:kAlertAnimationTop];
-
+ 
 }
 
+
+//关闭MQ连接
+-(void)closeConnect{
+    NSLog(@"------------- 关闭连接 -------------");
+    [[ShareManager instanceManager] closeMQ];
+}
 @end
