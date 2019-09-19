@@ -18,7 +18,7 @@
                                         password:(NSString *)password
                                          success:(void (^) (id info,NSString *msg))successBlock
                                          failure:(void (^) (NSError *error))failure{
-    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"user/login"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
+    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"api/user/login"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
         [parameter setObject:userName forField:@"userName"];
         [parameter setObject:password forField:@"passWord"];
      
@@ -61,7 +61,7 @@
                                              success:(void (^) (id info,NSString *msg))successBlock
                                              failure:(void (^) (NSError *error))failure{
    
-    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"qr/getQrImage"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
+    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"api/qr/getQrImage"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
         [parameter setObject:userId forField:@"userId"];
         [parameter setObject:projectId forField:@"projectId"];
         
@@ -89,14 +89,14 @@
                                                      success:(void (^) (NSArray * customerList,NSString *msg))successBlock
                                                      failure:(void (^) (NSError *error))failure{
     
-    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"user/employeeList"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
+    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"api/user/employeeList"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
         [parameter setObject:projectId forField:@"projectId"];
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSError *error = [GHNetworkUtil filterLoginData:responseObject];
         if (error == nil) {
             NSDictionary *dataDic = [responseObject objectForKey:@"data"];
-            NSArray * list = [NSArray yy_modelArrayWithClass:[CoustomerList class] json:dataDic];
+            NSArray * list = [NSArray yy_modelArrayWithClass:[EmployeeList class] json:dataDic];
             successBlock(list,nil);
         }else{
             failure(error);
@@ -117,7 +117,7 @@
                                                      success:(void (^) (NSArray * customerList,NSString *msg))successBlock
                                                      failure:(void (^) (NSError *error))failure{
     
-    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"user/visitorList"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
+    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"api/user/visitorList"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
         [parameter setObject:projectId forField:@"projectId"];
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -151,7 +151,7 @@
                                           success:(void (^) (NSArray * tagList ,NSString *msg))successBlock
                                           failure:(void (^) (NSError *error))failure{
     
-    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"user/dictList"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter){
+    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"api/user/dictList"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter){
         
         [parameter setObject:tag forField:@"tag"];
         
@@ -194,7 +194,9 @@
                                                    success:(void (^) (id info,NSString *msg))successBlock
                                                    failure:(void (^) (NSError *error))failure{
     
-    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"visitor/mod/addVisitor"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
+    //apiRestService/addCustomer
+    //visitor/mod/addVisitor
+    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"apiRestService/addCustomer"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter) {
         [parameter setObject:userId forField:@"id"];
         [parameter setObject:ownerName forField:@"ownerName"];
         [parameter setObject:phone forField:@"phone"];
@@ -226,6 +228,105 @@
         }
     }];
 }
+
+
+/**
+ @param  projectId  项目id
+ @param  employeeId  项目id
+ @param  tqCustomerPo  json字符串
+ "tqCustomerPo": {
+    "ageRange": "5",
+    "birthday": "2019-09-19",
+    "sex": "1",
+    "intentionLevel": "1",
+    "employeeId": "00a174f7699b4807904618a7cbcd932b",
+    "faceId": "2147513662",
+    "customerName": "距离",
+    "headPicture": "https://staticfile.tq-service.com/image/szacSystem/20190919/38b155a2dac94062a2721790cedce749.jpg",
+    "knowSource": "3",
+    "customerType": "1",
+    "phone": "13859888788",
+    "certificateNumber": "56855",
+    "projectId": "26b64bb23b5145168fef7821cf62f2b1",
+    "sourcePath": "3",
+    "certificateType": "0"
+ }
+ */
++ (NSURLSessionDataTask *)user_addTqCustomerPo:(NSDictionary *)tqCustomerPo
+                        tqRelationCustomersPos:(NSMutableArray *)tqRelationCustomersPos
+                                    employeeId:(NSString *)employeeId
+                                     projectId:(NSString *)projectId
+                                       success:(void (^) (id info,NSString *msg))successBlock
+                                       failure:(void (^) (NSString *errorMsg,BOOL isSuccess))failure{
+    
+    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"apiRestService/addCustomer"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter){
+        
+        
+        [parameter setObject:projectId forField:@"projectId"];
+        [parameter setObject:employeeId forField:@"employeeId"];
+        [parameter setObject:tqCustomerPo forField:@"tqCustomerPo"];
+        [parameter setObject:tqRelationCustomersPos forField:@"tqRelationCustomersPos"];
+        [parameter setObject:@"" forField:@"tqCustomerImgPos"];
+        [parameter setObject:@"" forField:@"tqTagCustomerPos"];
+
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSError *error = [GHNetworkUtil filterLoginData:responseObject];
+        if (error == nil) {
+            successBlock(nil,nil);
+        }else{
+            failure(nil,YES);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, id  _Nullable responseObject, NSError * _Nonnull error) {
+        
+        if (![responseObject[@"errors"] isEqualToString:@"<null>"]) {
+            NSArray * errors = responseObject[@"errors"];
+            NSDictionary * dic = errors.firstObject;
+            
+            if (failure) {
+                failure(dic[@"msg"],dic[@"serviceSuccess"]);
+            }
+        }
+    }];
+}
+
+
+
+
+/*
+ 案场抓拍
+ 
+ gender   1男2女
+ timegroup  时间段【5min,10min,30min,60min，180min,day】
+ 
+ */
+
++ (NSURLSessionDataTask *)user_catchPicWithProjectId:(NSString *)projectId
+                                           timegroup:(NSString *)timegroup
+                                          success:(void (^) (NSArray * list ,NSString *msg))successBlock
+                                          failure:(void (^) (NSError *error))failure{
+    
+    return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"api/visitor/v1/app/query/visitorFaces"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter){
+        
+        [parameter setObject:projectId forField:@"projectId"];
+        [parameter setObject:@"" forField:@"gender"];
+        [parameter setObject:timegroup forField:@"timegroup"];
+
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSError *error = [GHNetworkUtil filterLoginData:responseObject];
+        if (error == nil) {
+            NSDictionary *dataDic = [responseObject objectForKey:@"data"];
+            NSArray * list = [NSArray yy_modelArrayWithClass:[CoustomerList class] json:dataDic[@"list"]];
+            successBlock(list,nil);
+        }else{
+            failure(error);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, id  _Nullable responseObject, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
 
 
 

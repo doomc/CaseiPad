@@ -63,7 +63,7 @@
 
 
 /**
- *   保存访客记录
+ *   保存访客记录 ==========弃用
  *  @param userId 用户id
  *  @param ownerName 客户姓名
  *  @param phone 客户手机号
@@ -97,8 +97,28 @@
                                                     remark:(NSString *)remark
                                                    success:(void (^) (id info,NSString *msg))successBlock
                                                    failure:(void (^) (NSError *error))failure;
-    
+/**
+ *   添加访客记录 新
+ */
++ (NSURLSessionDataTask *)user_addTqCustomerPo:(NSDictionary *)tqCustomerPo
+                        tqRelationCustomersPos:(NSMutableArray *)tqRelationCustomersPos
+                                    employeeId:(NSString *)employeeId
+                                     projectId:(NSString *)projectId
+                                       success:(void (^) (id info,NSString *msg))successBlock
+                                       failure:(void (^) (NSString *errorMsg,BOOL isSuccess))failure;
 
+/*
+ 案场抓拍
+ 
+ gender   1男2女
+ timegroup  时间段【5min,10min,30min,60min，180min,day】
+ 
+ */
+
++ (NSURLSessionDataTask *)user_catchPicWithProjectId:(NSString *)projectId
+                                           timegroup:(NSString *)timegroup
+                                             success:(void (^) (NSArray * list ,NSString *msg))successBlock
+                                             failure:(void (^) (NSError *error))failure;
 @end
 
 

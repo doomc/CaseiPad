@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol PopViewControllerDelegate <NSObject>
 
 @optional
--(void)delegateMethod:(CoustomerList *)coustomer;
+-(void)delegateMethod:(EmployeeList *)coustomer;
 
 @end
 @interface PopViewController : BSViewController

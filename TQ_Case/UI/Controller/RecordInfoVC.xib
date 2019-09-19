@@ -88,12 +88,14 @@
                         <constraint firstItem="Z2Y-qP-PVk" firstAttribute="leading" secondItem="oi5-Qc-c6y" secondAttribute="leading" constant="30" id="tAQ-TX-0WC"/>
                     </constraints>
                 </view>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NZn-S0-pJe">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NZn-S0-pJe" customClass="WQRefreshTableView">
                     <rect key="frame" x="0.0" y="64" width="768" height="880"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="fDB-wU-4WV"/>
                         <outlet property="delegate" destination="-1" id="YtJ-ya-uZb"/>
+                        <outlet property="refreshDataSource" destination="-1" id="P3h-0b-hZZ"/>
+                        <outlet property="refreshDelegate" destination="-1" id="Do5-eg-0zW"/>
                     </connections>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lI-bd-sEL">

@@ -62,7 +62,7 @@ static NSString * const counselorCellId  = @"CounselorCell";
     
     CounselorCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:counselorCellId forIndexPath:indexPath];
     if (self.list) {
-        CoustomerList * user = self.list[indexPath.row];
+        EmployeeList * user = self.list[indexPath.row];
         [cell.name setText:user.name];
         [cell.headImage yy_setImageWithURL:[NSURL URLWithString:user.faceUrl] placeholder:[UIImage imageNamed:@"placeholder"]];
     }
@@ -95,7 +95,7 @@ static NSString * const counselorCellId  = @"CounselorCell";
     
     NSLog(@"cell ----- row == %ld",indexPath.item);
 
-    CoustomerList * user = self.list[indexPath.row];
+    EmployeeList * user = self.list[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(delegateMethod:)]) {
         [self.delegate delegateMethod:user];
     }

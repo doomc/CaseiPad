@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-@class CoustomerList,ChannelModel,ScanModel,ScanUserInfo;
+
+@class CoustomerList,EmployeeList,ChannelModel,ScanModel,ScanUserInfo;
 @interface User : NSObject
 
 @property (nonatomic, copy) NSString *userName;
@@ -22,13 +23,34 @@
 @property (nonatomic, copy) NSString *tag;
 
 @end
+@interface EmployeeList : NSObject
+
+@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSString *faceUrl;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *projectId;
+
+@end
 
 @interface CoustomerList : NSObject
 
 @property (nonatomic, copy) NSString *id;
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *visitorId;
+@property (nonatomic, copy) NSString *ownerName;
+@property (nonatomic, copy) NSString *phone;
 @property (nonatomic, copy) NSString *projectId;
+@property (nonatomic, copy) NSString *soruce;
+@property (nonatomic, copy) NSString *gender;
+@property (nonatomic, copy) NSString *openId;
+@property (nonatomic, copy) NSString *ageGroup;
+@property (nonatomic, copy) NSString *glass;
 @property (nonatomic, copy) NSString *faceUrl;
+@property (nonatomic, copy) NSString *userType;
+@property (nonatomic, copy) NSString *houseType;
+@property (nonatomic, copy) NSString *happenTime;
+@property (nonatomic, copy) NSString *createTime;
+@property (nonatomic, copy) NSString *remark;
+@property (nonatomic, copy) NSString *endTime;
 //判断是不是客户  如果是客户排在首位
 @property (nonatomic, assign) BOOL isFirstCustomer;
 @property (nonatomic, assign) BOOL isSelectAvatar;

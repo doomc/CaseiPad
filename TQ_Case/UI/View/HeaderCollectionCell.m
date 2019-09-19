@@ -104,7 +104,7 @@ static NSString * const  collectionCell1 = @"UserHeaderCell1";
         
         CoustomerList * user = self.dataArray[indexPath.row];
         [headCell.avatarImageView0 yy_setImageWithURL:[NSURL URLWithString:user.faceUrl] placeholder:[UIImage imageNamed:@"placeholder"]];
-        if (user.isSelectAvatar == 1) {
+        if (user.isSelectAvatar == YES) {
             [headCell.selectImage0 setImage:[UIImage imageNamed:@"user_customer_selecte"]];
         }else{
             [headCell.selectImage0 setImage:[UIImage imageNamed:@"user_customer_normal"]];
@@ -181,7 +181,7 @@ static NSString * const  collectionCell1 = @"UserHeaderCell1";
                 [self.selectArray addObject:user];
             }
         }
-        NSLog(@"%@",self.selectArray);
+        NSLog(@"已选数组- %@",self.selectArray);
         if (self.selectAvatarBlock) {
             self.selectAvatarBlock(self.selectArray);
         }

@@ -55,8 +55,8 @@ static ShareManager *manager = nil;
     //固定格式
     NSString *url5 = @"amqp://face:face@mqtt.tq-service.com:5672/face";
 
-    NSString* topic = @"iPad/59";
-//    NSString* topic = [NSString stringWithFormat:@"iPad/%@",[APPDELEGATE userManager].projectId];
+//    NSString* topic = @"iPad/59";
+    NSString* topic = [NSString stringWithFormat:@"iPad/%@",[APPDELEGATE userManager].projectId];
 
     NSLog(@"topic = %@",topic);
 

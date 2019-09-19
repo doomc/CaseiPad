@@ -14,10 +14,12 @@
 #import "PopViewController.h"
 #import "HomeVC.h"
 #import "NoticePopView.h"
+#import "AFNetworkReachabilityManager.h"
+
 
 @interface RecordInfoVC ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,PopViewControllerDelegate,UIGestureRecognizerDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet WQRefreshTableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *commitButton;
 
 @property (strong, nonatomic) NSArray * titles0;
@@ -31,12 +33,11 @@
 @property (copy, nonatomic) NSString *ownerPhone;//手机号
 @property (copy, nonatomic) NSString *ownerName;//姓名
 @property (copy, nonatomic) NSString *counselorId;//顾问id
-@property (copy, nonatomic) NSString *customerfaceUrl;//保存
 
 @property (strong, nonatomic) NSArray * avatarsList;//抓拍头像
 @property (strong, nonatomic) NSArray * counselorList;//置业顾问
 @property (strong, nonatomic) NSMutableArray * choosed;//已选客户
-@property (strong, nonatomic) CoustomerList * userInfo;
+@property (strong, nonatomic) EmployeeList * employeeInfo;
 
 @property (assign , nonatomic) CGFloat kcollectionView0Height;
 
@@ -46,6 +47,8 @@
 @property (strong, nonatomic) UILongPressGestureRecognizer * longPressMoveGes;
 //是否抖动
 @property (assign, nonatomic) BOOL isBegin;
+
+@property (strong , nonatomic) AFNetworkReachabilityManager *manger;
 
 
 @end
@@ -65,54 +68,44 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doRotateAction:) name:UIDeviceOrientationDidChangeNotification object:nil];
     
     self.tableView.backgroundColor = [UIColor clearColor];
-  
-    WS(weakSelf);
-    //获取客户列表
-    [GHNetworkManager user_getCoustomerListWithprojectId:[APPDELEGATE userManager].projectId success:^(NSArray *customerList, NSString *msg) {
-
-        weakSelf.avatarsList  = customerList;
-        [weakSelf.tableView reloadData];
-
-    } failure:^(NSError *error) {
-
-    }];
-
     
-    [self showLoadingWithMessage:@"数据载入中..."];
-    //获取关联置业顾问
-    [GHNetworkManager user_getCounselorListWithprojectId:[APPDELEGATE userManager].projectId success:^(NSArray *customerList, NSString *msg) {
-        if (customerList.count > 0) {
-            weakSelf.counselorList  = customerList;
+    [self.tableView setAllowShowBlank:NO];
+    [self.tableView setAllowShowMore:NO];
+    [self.tableView refreshData];
+    
+    //监测方法
+    self.manger = [AFNetworkReachabilityManager sharedManager];
+    //开启监听，记得开启，不然不走block
+    [self.manger startMonitoring];
+    //2.监听改变
+    [self.manger setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        /*
+         AFNetworkReachabilityStatusUnknown = -1,
+         AFNetworkReachabilityStatusNotReachable = 0,
+         AFNetworkReachabilityStatusReachableViaWWAN = 1,
+         AFNetworkReachabilityStatusReachableViaWiFi = 2,
+         */
+        switch (status) {
+            case AFNetworkReachabilityStatusUnknown:
+                
+                NSLog(@"未知");
+                break;
+            case AFNetworkReachabilityStatusNotReachable:
+                
+                NSLog(@"没有网络");
+                break;
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                
+                NSLog(@"3G|4G");
+                break;
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                
+                NSLog(@"WiFi");
+                break;
+            default:
+                break;
         }
-        [self hideLoading];
-    } failure:^(NSError *error) {
-        [self hideLoading];
     }];
-
-    
-    //获取码表 来源渠道
-    [GHNetworkManager user_getCodeListWithTag:@"CHANNEL" success:^(NSArray *tagList, NSString *msg) {
-        weakSelf.titles0 = tagList;
-        [weakSelf.tableView reloadData];
-    } failure:^(NSError *error) {
-    }];
-    
-    //用户身份
-    [GHNetworkManager user_getCodeListWithTag:@"USERTYPE" success:^(NSArray *tagList, NSString *msg) {
-        weakSelf.titles1 = tagList;
-        [weakSelf.tableView reloadData];
-
-    } failure:^(NSError *error) {
-    }];
-    
-    //物业形态
-    [GHNetworkManager user_getCodeListWithTag:@"PROPERTYTYPE" success:^(NSArray *tagList, NSString *msg) {
-        weakSelf.titles2 = tagList;
-        [weakSelf.tableView reloadData];
-    } failure:^(NSError *error) {
-        
-    }];
-
 }
 
 /*
@@ -124,171 +117,6 @@
     // Pass the selected object to the new view controller.
 }
 */
-
-#pragma mark  - tableviewDelegate
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 6;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    WS(weakSelf);
-    switch (indexPath.section) {
-        case 0:{
-            HeaderCollectionCell * cell = [HeaderCollectionCell configCell0:tableView indexPath:indexPath];
-            if (self.counselorList) {
-                //更新已选
-                cell.selectArray = self.choosed;
-                [cell reloadCollectionViewData0];
-            }
-            //传入抓拍客户列表
-            cell.dataArray = self.avatarsList;
-            cell.collectionView0ConstrainsHeight.constant = self.kcollectionView0Height;
-
-            //加载更多
-            [cell.loadingMoreButton setAction:^{
-                cell.loadingMoreButton.selected = !cell.loadingMoreButton.selected;
-                [weakSelf.tableView reloadData];
-                if (cell.loadingMoreButton.selected) {
-                    [cell.loadingMoreButton setTitle:@"点击回收" forState:UIControlStateNormal];
-                    [cell.loadingMoreButton  setImage:[UIImage imageNamed:@"arrow_up"] forState:UIControlStateNormal];
-
-                    CGFloat height = cell.collectionView0.collectionViewLayout.collectionViewContentSize.height;
-                    
-                    cell.collectionView0ConstrainsHeight.constant = self.kcollectionView0Height =   height > 226 ? height :226;
-                    NSLog(@"sssssssssssss %.f",height);
-                }else{
-                    [cell.loadingMoreButton setTitle:@"点击加载更多" forState:UIControlStateNormal];
-                    [cell.loadingMoreButton  setImage:[UIImage imageNamed:@"arrow_down"] forState:UIControlStateNormal];
-                    cell.collectionView0ConstrainsHeight.constant = self.kcollectionView0Height = 226;
-                }
-
-            }];
-         
-            if (self.choosed) {
-                cell.selectArray = self.choosed;
-                //选中的第一个客户
-                CoustomerList * user = self.choosed.firstObject;
-                self.customerfaceUrl = user.faceUrl;
-                
-                [cell reloadCollectionViewData1];
-                [cell reloadCollectionViewData0];
-          
-            }
-            cell.selectAvatarBlock = ^(NSMutableArray * _Nonnull selectArray) {
-                //已选
-                weakSelf.choosed = selectArray;
-                [UIView performWithoutAnimation:^{
-                    [weakSelf.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationNone];
-                }];
-            };
-            
-            return cell;
-        }; break;
-        case 1:{//用户信息
-            UserInfoCell * cell = [UserInfoCell configCell0:tableView indexPath:indexPath];
-            cell.userNameTextField.text =self.ownerName;
-            cell.userPhoneTextField.text =self.ownerPhone;
-            cell.textFieldBlock = ^(NSString * _Nonnull name, NSString * _Nonnull phone) {
-                weakSelf.ownerPhone = phone;
-                weakSelf.ownerName = name;
-                if (phone.length == 11 && name.length > 0) {
-                    [weakSelf.commitButton setImage:[UIImage imageNamed:@"user_commit_enable"] forState:UIControlStateNormal];
-                }else{
-                    [weakSelf.commitButton setImage:[UIImage imageNamed:@"user_commit_disable"] forState:UIControlStateNormal];
-                }
-            };
-            [cell.counselorNameButton setAction:^{//选择顾问
-                [weakSelf showPopView:cell.counselorNameButton];
-            }];
-            if (self.userInfo) {
-                //设置头像
-                [cell.counselorAvatars yy_setImageWithURL:[NSURL URLWithString:self.userInfo.faceUrl] placeholder:nil];
-                //顾问姓名
-                [cell.counselorNameButton setTitle:self.userInfo.name forState:UIControlStateNormal];
-            }
-            
-            return cell;
-        }; break;
-        case 2:{//来源渠道标签
-            MenuTagCell * cell = [MenuTagCell configCell0:tableView indexPath:indexPath];
-            cell.isMark =@"0";
-            cell.dataArray = self.titles0;
-            cell.detailLabel.text = @"（请选择来源渠道，单选！）";
-            cell.exchangeBlock = ^(NSString * _Nonnull json) {
-                NSLog(@"渠道标签 === %@",json);
-                weakSelf.sourceType = json;
-            };
-            return cell;
-        }; break;
-        case 3:{//用户身份标签
-            MenuTagCell * cell = [MenuTagCell configCell0:tableView indexPath:indexPath];
-            cell.isMark =@"0";
-            cell.exchangeBlock = ^(NSString * _Nonnull json) {
-                NSLog(@"身份标签 === %@",json);
-                weakSelf.userType = json;
-             
-            };
-            cell.titleLabel.text = @"用户身份";
-            cell.detailLabel.text = @"（请选择用户身份，单选！）";
-            cell.dataArray = self.titles1;
-            return cell;
-        }; break;
-        case 4:{// 物业形态标签
-            MenuTagCell * cell = [MenuTagCell configCell0:tableView indexPath:indexPath];
-            cell.isMark = @"0";
-            cell.titleLabel.text = @"物业形态";
-            cell.detailLabel.text = @"（请选择物业形态，单选！）";
-            cell.dataArray = self.titles2;
-            cell.exchangeBlock = ^(NSString * _Nonnull json) {
-                NSLog(@"物业形态 === %@",json);
-                weakSelf.wyType = json;
-            };
-            return cell;
-        }; break;
-        case 5:{//备注信息
-            RemarkCell * cell = [RemarkCell configCell0:tableView indexPath:indexPath];
-            cell.textViewBlock = ^(NSString * _Nonnull remark) {
-                weakSelf.remark = remark;
-            };
-            return cell;
-        }break;
-        default:
-            break;
-    }
-    return nil;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    switch (indexPath.section) {
-        case 0:{
-            return [HeaderCollectionCell configCell0HeightWithInfo:self.kcollectionView0Height];
-        }; break;
-        case 1:{
-            return [UserInfoCell configCell0HeightWithInfo:nil];
-        }; break;
-        case 2:{
-            return [MenuTagCell configCell0HeightWithInfo:nil];
-        }; break;
-        case 3:{
-            return [MenuTagCell configCell0HeightWithInfo:nil];
-        }; break;
-        case 4:{
-            return [MenuTagCell configCell0HeightWithInfo:nil];
-        }; break;
-        case 5:{
-            return [RemarkCell configCell0HeightWithInfo:nil];
-        }; break;
-        default:
-            break;
-    }
-    return 0;
-}
-
 
 #pragma mark  - backAction
 - (IBAction)backAction:(id)sender {
@@ -309,12 +137,16 @@
 
 - (IBAction)commitAction:(id)sender {
 
+    if (self.choosed.count == 0) {
+        [OMGToast showWithText:@"请选择客户"];
+        return;
+    }
     if (![self.ownerName isNotBlank]) {
         [OMGToast showWithText:@"姓名不能为空"];
         return;
     }
-    if (![self.ownerPhone isNotBlank]) {
-        [OMGToast showWithText:@"手机号不能为空"];
+    if (![self.ownerPhone isNotBlank] && ![self.ownerPhone isMobilphone]) {
+        [OMGToast showWithText:@"手机格式不对"];
         return;
     }
     if (![self.counselorId isNotBlank]) {
@@ -324,34 +156,96 @@
 
     [self showLoadingWithMessage:@"正在录入信息..."];
     //保存访客列表
-    [GHNetworkManager user_saveVisitorRecordWithUserId:[APPDELEGATE userManager].userId
-                                              ownerName:self.ownerName
-                                                  phone:self.ownerPhone
-                                              projectId:[APPDELEGATE userManager].projectId
-                                                 soruce:self.sourceType
-                                             employeeId:self.counselorId
-                                                openId:self.scanUserInfo.openId?self.scanUserInfo.openId:@""
-                                                 gender:@""
-                                               ageGroup:@""
-                                                  glass:@""
-                                                faceUrl:self.customerfaceUrl
-                                               userType:self.userType
-                                              houseType:self.wyType
-                                             happenTime:@""//抓拍时间
-                                                remark:self.remark
-                                                success:^(id info, NSString *msg) {
-                                                    [OMGToast showWithText:@"信息录入成功！"];
-                                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                        [self.navigationController popViewControllerAnimated:YES];
-                                                    });
-                                                    [self hideLoading];
-                                                } failure:^(NSError *error) {
-                                                    [self hideLoading];
-                                                    [OMGToast showWithText:@"信息录入失败！"];
-                                                }];
+
+//    [GHNetworkManager user_saveVisitorRecordWithUserId:[APPDELEGATE userManager].userId
+//                                              ownerName:self.ownerName
+//                                                  phone:self.ownerPhone
+//                                             projectId:[APPDELEGATE userManager].projectId
+//                                                soruce:self.sourceType
+//                                            employeeId:self.counselorId
+//                                                openId:self.scanUserInfo.openId?self.scanUserInfo.openId:@""
+//                                                gender:@""
+//                                              ageGroup:@""
+//                                                 glass:@""
+//                                                faceUrl:self.customerfaceUrl
+//                                               userType:self.userType
+//                                              houseType:self.wyType
+//                                             happenTime:@""//抓拍时间
+//                                                remark:self.remark
+//                                                success:^(id info, NSString *msg) {
+//                                                    [OMGToast showWithText:@"信息录入成功！"];
+//                                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                                                        [self.navigationController popViewControllerAnimated:YES];
+//                                                    });
+//                                                    [self hideLoading];
+//                                                } failure:^(NSError *error) {
+//                                                    [self hideLoading];
+//                                                    [OMGToast showWithText:@"信息录入失败！"];
+//                                                }];
+    
+    CoustomerList * customer = self.choosed.firstObject;
+    WS(weakSelf);
+    NSDictionary * customer1 = @{
+                                 
+                                 @"customerDataSource":@"3",//表示iPad来源
+                                 @"ageRange":customer.ageGroup,
+                                 @"birthday":@"",
+                                 @"sex":customer.gender,
+                                 @"intentionLevel":@"",//意向等级
+                                 @"employeeId":self.counselorId,
+                                 @"faceId":customer.visitorId,//改成访客 visitId
+                                 @"customerName":self.ownerName,
+                                 @"headPicture":customer.faceUrl,
+                                 @"knowSource":@"",//认知途径
+                                 @"customerType":self.userType?self.userType:@"",
+                                 @"phone":self.ownerPhone,
+                                 @"projectId":customer.projectId,
+                                 @"sourcePath":self.sourceType?self.sourceType:@"",//来源途径
+                                 @"certificateNumber":@"",
+                                 @"certificateType":@"",
+                                 };
+    
+    NSMutableArray * customer2 = [NSMutableArray array];
+    for (CoustomerList * list in self.choosed) {
+        if (!list.isFirstCustomer) {
+            NSDictionary * dict = @{
+                                    @"headPicture":list.faceUrl?list.faceUrl:@"",
+                                    @"ageRange":list.ageGroup?list.ageGroup:@"",
+                                    @"visitTime":list.happenTime,
+                                    @"certificateNumber":@"",
+                                    @"phone":list.phone,
+                                    @"sex":list.gender,
+                                    @"contactAddress":@"",
+                                    @"faceId":list.visitorId,
+                                    @"customerName":list.ownerName?list.ownerName:@"",
+                                    @"relation":@"",
+                                    @"certificateType":@"",
+        
+                                    };
+            
+            [customer2 addObject:dict];
+        }
+    }
+    
+    [GHNetworkManager user_addTqCustomerPo:customer1                         tqRelationCustomersPos:customer2 employeeId:self.counselorId projectId:[APPDELEGATE userManager].projectId success:^(id info, NSString *msg) {
+        [weakSelf hideLoading];
+        [OMGToast showWithText:@"信息录入成功！"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        });
+    } failure:^(NSString *errorMsg, BOOL isSuccess) {
+        [weakSelf hideLoading];
+        if (isSuccess) {
+            [OMGToast showWithText:@"信息录入成功！"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            });
+        }else{
+            [OMGToast showWithText:@"errorMsg"];
+        }
+    }];
 
 }
-
 
 
 
@@ -400,10 +294,10 @@
     
 }
 
--(void)delegateMethod:(CoustomerList *)coustomer{
+-(void)delegateMethod:(EmployeeList *)coustomer{
     
     NSLog(@"get user info == %@",coustomer.name);
-    self.userInfo = coustomer;
+    self.employeeInfo = coustomer;
     self.counselorId = coustomer.id;
     [UIView performWithoutAnimation:^{
         [self.tableView reloadSection:1 withRowAnimation:UITableViewRowAnimationNone];
@@ -426,5 +320,242 @@
     }
     [self.tableView reloadData];
 }
+
+
+/****************************************************/
+#pragma mark - UITableViewDataSource
+/****************************************************/
+
+- (NSInteger)numberOfSectionsInTableView:(WQRefreshTableView *)tableView{
+
+    return 6;
+}
+
+- (NSInteger)tableView:(WQRefreshTableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return 1;
+}
+
+- (CGFloat)tableView:(WQRefreshTableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    switch (indexPath.section) {
+        case 0:{
+            return [HeaderCollectionCell configCell0HeightWithInfo:self.kcollectionView0Height];
+        }; break;
+        case 1:{
+            return [UserInfoCell configCell0HeightWithInfo:nil];
+        }; break;
+        case 2:{
+            return [MenuTagCell configCell0HeightWithInfo:nil];
+        }; break;
+        case 3:{
+            return [MenuTagCell configCell0HeightWithInfo:nil];
+        }; break;
+        case 4:{
+            return [MenuTagCell configCell0HeightWithInfo:nil];
+        }; break;
+        case 5:{
+            return [RemarkCell configCell0HeightWithInfo:nil];
+        }; break;
+        default:
+            break;
+    }
+    return 0;
+ }
+
+- (UITableViewCell *)tableView:(WQRefreshTableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    WS(weakSelf);
+    switch (indexPath.section) {
+        case 0:{
+            HeaderCollectionCell * cell = [HeaderCollectionCell configCell0:tableView indexPath:indexPath];
+            if (self.counselorList) {
+                //更新已选
+                cell.selectArray = self.choosed;
+                [cell reloadCollectionViewData0];
+            }
+            //传入抓拍客户列表
+            cell.dataArray = self.avatarsList;
+            cell.collectionView0ConstrainsHeight.constant = self.kcollectionView0Height;
+            
+            //加载更多
+            [cell.loadingMoreButton setAction:^{
+                cell.loadingMoreButton.selected = !cell.loadingMoreButton.selected;
+                [weakSelf.tableView reloadData];
+                if (cell.loadingMoreButton.selected) {
+                    [cell.loadingMoreButton setTitle:@"点击回收" forState:UIControlStateNormal];
+                    [cell.loadingMoreButton  setImage:[UIImage imageNamed:@"arrow_up"] forState:UIControlStateNormal];
+                    
+                    CGFloat height = cell.collectionView0.collectionViewLayout.collectionViewContentSize.height;
+                    
+                    cell.collectionView0ConstrainsHeight.constant = self.kcollectionView0Height =   height > 226 ? height :226;
+                    NSLog(@"sssssssssssss %.f",height);
+                }else{
+                    [cell.loadingMoreButton setTitle:@"点击加载更多" forState:UIControlStateNormal];
+                    [cell.loadingMoreButton  setImage:[UIImage imageNamed:@"arrow_down"] forState:UIControlStateNormal];
+                    cell.collectionView0ConstrainsHeight.constant = self.kcollectionView0Height = 226;
+                }
+                
+            }];
+            
+            if (self.choosed) {
+                cell.selectArray = self.choosed;
+                [cell reloadCollectionViewData1];
+                [cell reloadCollectionViewData0];
+                
+            }
+            cell.selectAvatarBlock = ^(NSMutableArray * _Nonnull selectArray) {
+                //已选数组  标记第一个为客户
+                weakSelf.choosed = selectArray;
+                [weakSelf.choosed enumerateObjectsUsingBlock:^(CoustomerList*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if (idx == 0) {
+                        obj.isFirstCustomer = YES;
+                    }else{
+                        obj.isFirstCustomer = NO;
+                    }
+                }];
+                
+                [UIView performWithoutAnimation:^{
+                    [weakSelf.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationNone];
+                }];
+            };
+            
+            return cell;
+        }; break;
+        case 1:{//用户信息
+            UserInfoCell * cell = [UserInfoCell configCell0:tableView indexPath:indexPath];
+            cell.userNameTextField.text =self.ownerName;
+            cell.userPhoneTextField.text =self.ownerPhone;
+            cell.textFieldBlock = ^(NSString * _Nonnull name, NSString * _Nonnull phone) {
+                weakSelf.ownerPhone = phone;
+                weakSelf.ownerName = name;
+                if (phone.length == 11 && name.length > 0 && [phone isMobilphone] ) {
+                    [weakSelf.commitButton setImage:[UIImage imageNamed:@"user_commit_enable"] forState:UIControlStateNormal];
+                }else{
+                    [weakSelf.commitButton setImage:[UIImage imageNamed:@"user_commit_disable"] forState:UIControlStateNormal];
+                }
+            };
+            [cell.counselorNameButton setAction:^{//选择顾问
+                [weakSelf showPopView:cell.counselorNameButton];
+            }];
+            if (self.employeeInfo) {
+                //设置头像
+                [cell.counselorAvatars yy_setImageWithURL:[NSURL URLWithString:self.employeeInfo.faceUrl] placeholder:nil];
+                //顾问姓名
+                [cell.counselorNameButton setTitle:self.employeeInfo.name forState:UIControlStateNormal];
+            }
+            
+            return cell;
+        }; break;
+        case 2:{//来源渠道标签
+            MenuTagCell * cell = [MenuTagCell configCell0:tableView indexPath:indexPath];
+            cell.isMark =@"0";
+            cell.dataArray = self.titles0;
+            cell.detailLabel.text = @"（请选择来源渠道，单选！）";
+            cell.exchangeBlock = ^(NSString * _Nonnull json) {
+                NSLog(@"渠道标签 === %@",json);
+                weakSelf.sourceType = json;
+            };
+            return cell;
+        }; break;
+        case 3:{//用户身份标签
+            MenuTagCell * cell = [MenuTagCell configCell0:tableView indexPath:indexPath];
+            cell.isMark =@"0";
+            cell.exchangeBlock = ^(NSString * _Nonnull json) {
+                NSLog(@"身份标签 === %@",json);
+                weakSelf.userType = json;
+            };
+            cell.titleLabel.text = @"用户身份";
+            cell.detailLabel.text = @"（请选择用户身份，单选！）";
+            cell.dataArray = self.titles1;
+            return cell;
+        }; break;
+        case 4:{// 物业形态标签
+            MenuTagCell * cell = [MenuTagCell configCell0:tableView indexPath:indexPath];
+            cell.isMark = @"0";
+            cell.titleLabel.text = @"物业形态";
+            cell.detailLabel.text = @"（请选择物业形态，单选！）";
+            cell.dataArray = self.titles2;
+            cell.exchangeBlock = ^(NSString * _Nonnull json) {
+                NSLog(@"物业形态 === %@",json);
+                weakSelf.wyType = json;
+            };
+            return cell;
+        }; break;
+        case 5:{//备注信息
+            RemarkCell * cell = [RemarkCell configCell0:tableView indexPath:indexPath];
+            cell.textViewBlock = ^(NSString * _Nonnull remark) {
+                weakSelf.remark = remark;
+            };
+            return cell;
+        }break;
+        default:
+            break;
+    }
+    return nil;
+}
+
+
+/**********************************************************************/
+#pragma mark - WQRefreshTableViewDelegate
+/**********************************************************************/
+
+
+- (void)tableView:(WQRefreshTableView *)tableView
+        pageIndex:(NSUInteger)pageIndex
+          success:(void (^)(NSArray * _Nullable list, BOOL hasNext))success
+          failure:(void (^)(NSError *error))failure{
+    
+    if (self.manger.networkReachabilityStatus == AFNetworkReachabilityStatusNotReachable) {
+        [OMGToast showWithText:@"当前网络异常,请检查网络"];
+        return;
+    }
+    [self showLoadingWithMessage:@"数据载入中..."];
+
+    WS(weakSelf);
+    //获取客户列表
+    [GHNetworkManager user_catchPicWithProjectId:[APPDELEGATE userManager].projectId timegroup:@"day" success:^(NSArray *list, NSString *msg) {
+        weakSelf.avatarsList  = list;
+        [weakSelf.tableView reloadData];
+        success(list,NO);
+    } failure:^(NSError *error) {
+        [weakSelf hideLoading];
+    }];
+    
+    
+    //获取关联置业顾问
+    [GHNetworkManager user_getCounselorListWithprojectId:[APPDELEGATE userManager].projectId success:^(NSArray *customerList, NSString *msg) {
+        if (customerList.count > 0) {
+            weakSelf.counselorList  = customerList;
+        }
+        [weakSelf hideLoading];
+    } failure:^(NSError *error) {
+        [weakSelf hideLoading];
+    }];
+    
+    //获取码表 来源渠道
+    [GHNetworkManager user_getCodeListWithTag:@"CHANNEL" success:^(NSArray *tagList, NSString *msg) {
+        weakSelf.titles0 = tagList;
+        [weakSelf.tableView reloadData];
+    } failure:^(NSError *error) {
+    }];
+    
+    //用户身份
+    [GHNetworkManager user_getCodeListWithTag:@"USERTYPE" success:^(NSArray *tagList, NSString *msg) {
+        weakSelf.titles1 = tagList;
+        [weakSelf.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+    }];
+    
+    //物业形态
+    [GHNetworkManager user_getCodeListWithTag:@"PROPERTYTYPE" success:^(NSArray *tagList, NSString *msg) {
+        weakSelf.titles2 = tagList;
+        [weakSelf.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
+
+}
+
+
 
 @end
