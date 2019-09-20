@@ -430,13 +430,15 @@
             cell.userNameTextField.text =self.ownerName;
             cell.userPhoneTextField.text =self.ownerPhone;
             cell.textFieldBlock = ^(NSString * _Nonnull name, NSString * _Nonnull phone) {
-                weakSelf.ownerPhone = phone;
-                weakSelf.ownerName = name;
-                if (weakSelf.ownerPhone.length == 11 && weakSelf.ownerPhone.length > 0 && [weakSelf.ownerPhone isMobilphone] ) {
-                    [weakSelf.commitButton setImage:[UIImage imageNamed:@"user_commit_enable"] forState:UIControlStateNormal];
-                }else{
-                    [weakSelf.commitButton setImage:[UIImage imageNamed:@"user_commit_disable"] forState:UIControlStateNormal];
+                if (phone) {
+                    weakSelf.ownerPhone = phone;
+              
                 }
+                if (name) {
+                    weakSelf.ownerName = name;
+                }
+                [weakSelf check];
+                
             };
             [cell.counselorNameButton setAction:^{//选择顾问
                 [weakSelf showPopView:cell.counselorNameButton];
@@ -498,7 +500,32 @@
     return nil;
 }
 
+-(void)check{
 
+    NSLog(@"name = %@,phone = %@",self.ownerName,self.ownerPhone);
+    
+    if (self.ownerName.length == 0) {
+        [OMGToast showWithText:@"请输入姓名"];
+        [self.commitButton setImage:[UIImage imageNamed:@"user_commit_disable"] forState:UIControlStateNormal];
+        [self.commitButton setEnabled:NO];
+        return;
+    }
+    if (self.ownerPhone.length == 11) {
+        if (![self.ownerPhone isMobilphone]) {
+            [OMGToast showWithText:@"手机格式错误"];
+            return;
+        }
+    }else{
+        [self.commitButton setImage:[UIImage imageNamed:@"user_commit_disable"] forState:UIControlStateNormal];
+        [self.commitButton setEnabled:NO];
+        return;
+    }
+
+    [self.commitButton setImage:[UIImage imageNamed:@"user_commit_enable"] forState:UIControlStateNormal];
+    [self.commitButton setEnabled:YES];
+ 
+ 
+}
 /**********************************************************************/
 #pragma mark - WQRefreshTableViewDelegate
 /**********************************************************************/
@@ -562,6 +589,7 @@
     }];
 
 }
+
 
 
 
