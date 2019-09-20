@@ -105,7 +105,7 @@
                                     employeeId:(NSString *)employeeId
                                      projectId:(NSString *)projectId
                                        success:(void (^) (id info,NSString *msg))successBlock
-                                       failure:(void (^) (NSString *errorMsg,BOOL isSuccess))failure;
+                                       failure:(void (^) (ErrorsModel *error,BOOL isSuccess))failure;
 
 /*
  案场抓拍

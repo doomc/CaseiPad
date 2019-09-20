@@ -257,7 +257,7 @@
                                     employeeId:(NSString *)employeeId
                                      projectId:(NSString *)projectId
                                        success:(void (^) (id info,NSString *msg))successBlock
-                                       failure:(void (^) (NSString *errorMsg,BOOL isSuccess))failure{
+                                       failure:(void (^) (ErrorsModel *error,BOOL isSuccess))failure{
     
     return [APPENGINE.networkManager HTTP_POST:[[APPENGINE.networkManager getSERVERURL_CASE] stringByAppendingString:@"apiRestService/addCustomer"] action:@"" parameters:^(id<GHParameterDic>  _Nonnull parameter){
         
@@ -274,17 +274,29 @@
         if (error == nil) {
             successBlock(nil,nil);
         }else{
-            failure(nil,YES);
+            BOOL isSuccess = NO;
+            NSString * successCode = [NSString stringWithFormat:@"%@",responseObject[@"serviceSuccess"]];
+            if ([successCode isEqualToString:@"1"]) {
+                isSuccess = YES;
+            }
+            NSArray * errorsList = [NSArray yy_modelArrayWithClass:[ErrorsModel class] json:responseObject[@"errors"]];
+            ErrorsModel * errorModel = errorsList.firstObject;
+            failure(errorModel,isSuccess);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, id  _Nullable responseObject, NSError * _Nonnull error) {
         
-        if (![responseObject[@"errors"] isEqualToString:@"<null>"]) {
-            NSArray * errors = responseObject[@"errors"];
-            NSDictionary * dic = errors.firstObject;
-            
-            if (failure) {
-                failure(dic[@"msg"],dic[@"serviceSuccess"]);
-            }
+        BOOL isSuccess = NO;
+        NSString * successCode = [NSString stringWithFormat:@"%@",responseObject[@"serviceSuccess"]];
+        if ([successCode isEqualToString:@"1"]) {
+            isSuccess = YES;
+        }
+        
+        if ([successCode isEqualToString:@"1"]) {//成功
+            failure(nil,isSuccess);
+        }else{//失败
+            NSArray * errorsList = [NSArray yy_modelArrayWithClass:[ErrorsModel class] json:responseObject[@"errors"]];
+            ErrorsModel * errorModel = errorsList.firstObject;
+            failure(errorModel,isSuccess);
         }
     }];
 }

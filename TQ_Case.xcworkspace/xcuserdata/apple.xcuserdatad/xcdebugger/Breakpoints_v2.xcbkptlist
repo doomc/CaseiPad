@@ -84,7 +84,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TQ_Case/UI/Service/Logic/GHNetworkManager+UserAPI.m"
-            timestampString = "590593195.553702"
+            timestampString = "590640885.883504"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "201"
@@ -99,13 +99,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TQ_Case/UI/Controller/RecordInfoVC.m"
-            timestampString = "590593195.55381"
+            filePath = "TQ_Case/UI/Service/Logic/GHNetworkManager+UserAPI.m"
+            timestampString = "590640885.883581"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
-            landmarkName = "-commitAction:"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "+user_addTqCustomerPo:tqRelationCustomersPos:employeeId:projectId:success:failure:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

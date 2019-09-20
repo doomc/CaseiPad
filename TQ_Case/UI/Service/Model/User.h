@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class CoustomerList,EmployeeList,ChannelModel,ScanModel,ScanUserInfo;
+@class CoustomerList,EmployeeList,ChannelModel,ScanModel,ScanUserInfo,ErrorsModel;
 @interface User : NSObject
 
 @property (nonatomic, copy) NSString *userName;
@@ -118,5 +118,12 @@
 @property (nonatomic, copy) NSString *loginSize;
 
 
+
+@end
+@interface ErrorsModel : NSObject
+
+@property (nonatomic, copy) NSString *errorCode;
+@property (nonatomic, copy) NSString *msg;
+@property (nonatomic, copy) NSString *parameter;
 
 @end

@@ -70,9 +70,8 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     
     [self.tableView setAllowShowBlank:NO];
-    [self.tableView setAllowShowMore:NO];
-    [self.tableView refreshData];
     
+    WS(weakSelf);
     //监测方法
     self.manger = [AFNetworkReachabilityManager sharedManager];
     //开启监听，记得开启，不然不走block
@@ -87,7 +86,7 @@
          */
         switch (status) {
             case AFNetworkReachabilityStatusUnknown:
-                
+                [weakSelf.tableView refreshData];
                 NSLog(@"未知");
                 break;
             case AFNetworkReachabilityStatusNotReachable:
@@ -95,12 +94,13 @@
                 NSLog(@"没有网络");
                 break;
             case AFNetworkReachabilityStatusReachableViaWWAN:
-                
+                [weakSelf.tableView refreshData];
+
                 NSLog(@"3G|4G");
                 break;
             case AFNetworkReachabilityStatusReachableViaWiFi:
-                
                 NSLog(@"WiFi");
+                [weakSelf.tableView refreshData];
                 break;
             default:
                 break;
@@ -227,13 +227,18 @@
         }
     }
     
-    [GHNetworkManager user_addTqCustomerPo:customer1                         tqRelationCustomersPos:customer2 employeeId:self.counselorId projectId:[APPDELEGATE userManager].projectId success:^(id info, NSString *msg) {
+    [GHNetworkManager user_addTqCustomerPo:customer1 tqRelationCustomersPos:customer2 employeeId:self.counselorId projectId:[APPDELEGATE userManager].projectId success:^(id info, NSString *msg) {
+        if (msg == nil) {
+            [OMGToast showWithText:@"信息录入成功！"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            });
+        }else{
+            [OMGToast showWithText:msg];
+        }
         [weakSelf hideLoading];
-        [OMGToast showWithText:@"信息录入成功！"];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [weakSelf.navigationController popViewControllerAnimated:YES];
-        });
-    } failure:^(NSString *errorMsg, BOOL isSuccess) {
+
+    } failure:^(ErrorsModel *error, BOOL isSuccess) {
         [weakSelf hideLoading];
         if (isSuccess) {
             [OMGToast showWithText:@"信息录入成功！"];
@@ -241,7 +246,7 @@
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             });
         }else{
-            [OMGToast showWithText:@"errorMsg"];
+            [OMGToast showWithText:error.msg];
         }
     }];
 
@@ -427,7 +432,7 @@
             cell.textFieldBlock = ^(NSString * _Nonnull name, NSString * _Nonnull phone) {
                 weakSelf.ownerPhone = phone;
                 weakSelf.ownerName = name;
-                if (phone.length == 11 && name.length > 0 && [phone isMobilphone] ) {
+                if (weakSelf.ownerPhone.length == 11 && weakSelf.ownerPhone.length > 0 && [weakSelf.ownerPhone isMobilphone] ) {
                     [weakSelf.commitButton setImage:[UIImage imageNamed:@"user_commit_enable"] forState:UIControlStateNormal];
                 }else{
                     [weakSelf.commitButton setImage:[UIImage imageNamed:@"user_commit_disable"] forState:UIControlStateNormal];
@@ -506,6 +511,7 @@
     
     if (self.manger.networkReachabilityStatus == AFNetworkReachabilityStatusNotReachable) {
         [OMGToast showWithText:@"当前网络异常,请检查网络"];
+        success(nil,NO);
         return;
     }
     [self showLoadingWithMessage:@"数据载入中..."];
@@ -518,8 +524,9 @@
         success(list,NO);
     } failure:^(NSError *error) {
         [weakSelf hideLoading];
+        [OMGToast showWithText:error.localizedDescription];
     }];
-    
+
     
     //获取关联置业顾问
     [GHNetworkManager user_getCounselorListWithprojectId:[APPDELEGATE userManager].projectId success:^(NSArray *customerList, NSString *msg) {
