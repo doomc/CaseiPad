@@ -26,7 +26,11 @@
 
 
 - (NSArray *)getSERVERURL_CaseArray{ //tqdata/template/
-    NSArray *serverUrls = [NSArray arrayWithObjects:@"https://digital.tq-service.com/tqdata/",@"https://dev-mml.tq-service.com/tqdata/",@"http://10.15.208.134:9002/tqdata/api/",@"http://192.168.10.184:9000/",nil];
+    NSArray *serverUrls = [NSArray arrayWithObjects:
+                           @"https://digital.tq-service.com/tqdata/",
+                           @"http://devs-digital.tq-service.com/tqdata/",
+                           @"http://devs-digital.tq-service.com/",
+                           @"http://192.168.10.184:9000/",nil];
     return serverUrls;
 }
 
