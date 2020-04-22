@@ -127,7 +127,7 @@
 
 //平台类型（0正式平台，1测试平台 2开发平台,3其他环境)
 
-#define PLANTFORM                  1
+#define PLANTFORM                  0
 
 //1可切换平台0不可切换
 #define ISTEST                     1
